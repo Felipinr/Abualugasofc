@@ -13,13 +13,16 @@ if (isset($_POST['aluguel_selecionado'])) {
         WHERE a.id_aluguel = ?";
 
 
-
         if (isset($_POST['aluguel_selecionado'])) {
             $veiculos_selecionados = $_POST['aluguel_selecionado'];
             foreach ($veiculos_selecionados as $veiculos_id_veiculo) {
             }
         }
         
+if (isset($_POST['aluguel_selecionado'])) {
+    $id_aluguel = $_POST['aluguel_selecionado'];
+
+
     $stmt_aluguel = $conexao->prepare($sql_aluguel);
     $stmt_aluguel->bind_param("i", $veiculos_id_veiculo);
     $stmt_aluguel->execute();
