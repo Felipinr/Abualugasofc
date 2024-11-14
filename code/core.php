@@ -6,7 +6,8 @@
  * @param mysqli $conexao   Conexão ativa com o banco de dados.
  * @return array            Lista de veículos.
  */
-function listarCarros($conexao) {
+function listarCarros($conexao)
+{
     $sql = "SELECT * FROM veiculos";
 
     $stmt = mysqli_prepare($conexao, $sql);
@@ -31,7 +32,8 @@ function listarCarros($conexao) {
  * @param mysqli $conexao   Conexão ativa com o banco de dados.
  * @return array            Lista de clientes.
  */
-function listarClientes($conexao) {
+function listarClientes($conexao)
+{
     $sql = "SELECT * FROM clientes";
 
     $stmt = mysqli_prepare($conexao, $sql);
@@ -60,7 +62,8 @@ function listarClientes($conexao) {
  * @param mysqli $conexao Conexção ativa com o banco de dados.
  * @return array           Lista de funcionários.
  */
-function listarFuncionarios($conexao) {
+function listarFuncionarios($conexao)
+{
     $sql = "SELECT * FROM funcionarios";
 
     $stmt = mysqli_prepare($conexao, $sql);
@@ -86,7 +89,8 @@ function listarFuncionarios($conexao) {
  * @param int $id_veiculo ID do veículo.
  * @return string         Modelo do veículo ou mensagem de erro.
  */
-function buscarNomeSituacaoPorId($conexao, $id_veiculo) {
+function buscarNomeSituacaoPorId($conexao, $id_veiculo)
+{
     if (!$conexao) {
         die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
     }
@@ -99,10 +103,10 @@ function buscarNomeSituacaoPorId($conexao, $id_veiculo) {
 
         if (mysqli_stmt_fetch($stmt)) {
             mysqli_stmt_close($stmt);
-            return $modelo; 
+            return $modelo;
         } else {
             mysqli_stmt_close($stmt);
-            return "Veículo não encontrado."; 
+            return "Veículo não encontrado.";
         }
     } else {
         return "Erro ao preparar a consulta SQL: " . mysqli_error($conexao);
@@ -116,7 +120,8 @@ function buscarNomeSituacaoPorId($conexao, $id_veiculo) {
  * @param string $nome      Nome do cliente.
  * @return int              ID do cliente inserido.
  */
-function salvarCliente($conexao, $nome) {
+function salvarCliente($conexao, $nome)
+{
     $sql = "INSERT INTO cliente (nome) VALUES (?)";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -136,7 +141,8 @@ function salvarCliente($conexao, $nome) {
  * @param string $nome      Nome do funcionário.
  * @return int              ID do funcionário inserido.
  */
-function salvarFuncionario($conexao, $nome) {
+function salvarFuncionario($conexao, $nome)
+{
     $sql = "INSERT INTO funcionario (nome) VALUES (?)";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -158,7 +164,8 @@ function salvarFuncionario($conexao, $nome) {
  * @param string $modelo    Modelo do veículo.
  * @return int              ID do veículo inserido.
  */
-function salvarVeiculo($conexao, $km, $marca, $modelo) {
+function salvarVeiculo($conexao, $km, $marca, $modelo)
+{
     $sql = "INSERT INTO veiculo (km_atual, marca, modelo) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -179,7 +186,8 @@ function salvarVeiculo($conexao, $km, $marca, $modelo) {
  * @param int $idcliente        ID do cliente.
  * @return int                  ID do empréstimo inserido.
  */
-function salvarEmprestimo($conexao, $idfuncionario, $idcliente) {
+function salvarEmprestimo($conexao, $idfuncionario, $idcliente)
+{
     $sql = "INSERT INTO emprestimo (idfuncionario, idcliente) VALUES (?, ?)";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -200,7 +208,8 @@ function salvarEmprestimo($conexao, $idfuncionario, $idcliente) {
  * @param int $idveiculo        ID do veículo.
  * @return int                  ID da relação inserida.
  */
-function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo) {
+function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo)
+{
     $km_inicial = kmInicialVeiculo($conexao, $idveiculo);
     $km_final = 0;
 
@@ -223,7 +232,8 @@ function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo) {
  * @param int $idveiculo    ID do veículo.
  * @return string           Quilometragem inicial do veículo.
  */
-function kmInicialVeiculo($conexao, $idveiculo) {
+function kmInicialVeiculo($conexao, $idveiculo)
+{
     $sql = "SELECT km_atual FROM veiculo WHERE idveiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -246,7 +256,8 @@ function kmInicialVeiculo($conexao, $idveiculo) {
  * @param string $metodo    Método de pagamento.
  * @return int              ID do pagamento inserido.
  */
-function efetuarPagamento($conexao, $idemprestimo, $valor, $precokm, $metodo) {
+function efetuarPagamento($conexao, $idemprestimo, $valor, $precokm, $metodo)
+{
     $sql = "INSERT INTO pagamento (idemprestimo, valor, preco_por_km, metodo) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -267,7 +278,8 @@ function efetuarPagamento($conexao, $idemprestimo, $valor, $precokm, $metodo) {
  * @param int $idemprestimo ID do empréstimo.
  * @param int $idveiculo    ID do veículo.
  */
-function atualiza_km_final($conexao, $km_final, $idemprestimo, $idveiculo) {
+function atualiza_km_final($conexao, $km_final, $idemprestimo, $idveiculo)
+{
     $sql = "UPDATE emprestimo_has_veiculo SET km_final = ? WHERE idemprestimo = ? AND idveiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -285,7 +297,8 @@ function atualiza_km_final($conexao, $km_final, $idemprestimo, $idveiculo) {
  * @param int $km_atual     Quilometragem atual do veículo.
  * @param int $idveiculo    ID do veículo.
  */
-function atualiza_km_atual($conexao, $km_atual, $idveiculo) {
+function atualiza_km_atual($conexao, $km_atual, $idveiculo)
+{
     $sql = "UPDATE veiculo SET km_atual = ? WHERE idveiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);
 
@@ -293,4 +306,3 @@ function atualiza_km_atual($conexao, $km_atual, $idveiculo) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-?>
