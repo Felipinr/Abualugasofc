@@ -18,7 +18,7 @@ if (isset($_POST['aluguel_selecionado'])) {
             foreach ($veiculos_selecionados as $veiculos_id_veiculo) {
             }
         }
-        
+    }
 if (isset($_POST['aluguel_selecionado'])) {
     $id_aluguel = $_POST['aluguel_selecionado'];
 

@@ -1,114 +1,45 @@
 <?php
-require_once 'conexao.php';
+// Incluir o arquivo de conexão com o banco de dados
+require_once('conexao.php');
 
-/**
- * Obtém a lista de clientes ordenados por nome.
- */
-$sql_clientes = "SELECT id_cliente, nome FROM clientes ORDER BY nome";
-$stmt_clientes = $conexao->prepare($sql_clientes);
-$stmt_clientes->execute();
-$result_clientes = $stmt_clientes->get_result();
+// 1. Selecionar todos os clientes em ordem alfabética
+$sql_clientes = "SELECT id_cliente, nome FROM clientes ORDER BY nome ASC";
 
-$id_cliente = null;
-$nome_cliente = "";
-
-if (isset($_POST['id_cliente'])) {
-    $id_cliente = $_POST['id_cliente'];
-
-    /**
-     * Obtém o nome do cliente selecionado.
-     * 
-     * @param int $id_cliente ID do cliente selecionado.
-     */
-
-    $sql_nome_cliente = "SELECT nome FROM clientes WHERE id_cliente = ?";
-    $stmt_nome_cliente = $conexao->prepare($sql_nome_cliente);
-    $stmt_nome_cliente->bind_param("i", $id_cliente);
-    $stmt_nome_cliente->execute();
-    $result_nome_cliente = $stmt_nome_cliente->get_result();
-
-    if ($row_nome_cliente = $result_nome_cliente->fetch_assoc()) {
-        $nome_cliente = $row_nome_cliente['nome'];
-    }
-
-    /**
-     * Obtém os aluguéis do cliente selecionado.
-     * 
-     * @param int $id_cliente ID do cliente selecionado.
-     */
-
-    $sql = "SELECT 
-                 av.veiculos_id_veiculo, 
-                 v.modelo, 
-                 av.km_inicial
-             FROM alugueis_veiculos av
-             JOIN veiculos v ON av.veiculos_id_veiculo = v.id_veiculo
-             JOIN alugueis a ON a.id_aluguel = av.id_aluguel
-             WHERE a.id_cliente = ?";
-
-
-    $sql = "SELECT modelo, km_atual FROM veiculos WHERE id_veiculo = ?";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("i", $id_cliente);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-
-}
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamento de Empréstimo</title>
+    <title>Selecionar Cliente e Veículos Alugados</title>
     <style>
-        /* Estilos básicos para a página */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
         }
-
+        
         .container {
-            width: 60%;
-            background-color: #fff;
-            margin: 0 auto;
+            width: 80%;
+            margin: 20px auto;
             padding: 20px;
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1,
-        h2 {
+        
+        h1 {
             text-align: center;
             color: #333;
         }
-
-        form {
-            margin-bottom: 20px;
-        }
-
-        select,
-        input[type="radio"],
-        button {
-            display: block;
+        
+        select {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        select:focus,
-        input[type="radio"]:focus,
-        button:focus {
-            border-color: #28a745;
-            outline: none;
+            font-size: 16px;
+            margin-top: 20px;
         }
 
         table {
@@ -117,94 +48,104 @@ if (isset($_POST['id_cliente'])) {
             margin-top: 20px;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px;
-            border: 1px solid #ddd;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f8f8f8;
+            background-color: #4CAF50;
+            color: white;
         }
 
-        button {
-            background-color: #28a745;
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            cursor: pointer;
-            padding: 12px;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        p {
-            text-align: center;
+            border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1>Selecionar Cliente para Pagamento de Empréstimo</h1>
-        <form method="POST" action="">
-            <select name="id_cliente" required>
-                <option value="">Selecione um cliente</option>
-                <?php while ($cliente = $result_clientes->fetch_assoc()): ?>
-                    <option value="<?php echo $cliente['id_cliente']; ?>" <?php echo ($cliente['id_cliente'] == $id_cliente) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($cliente['nome']); ?>
-                    </option>
-                <?php endwhile; ?>
+        <h1>Selecione um Cliente e Veículos Alugados</h1>
+
+        <form method="POST" action="pagamento.php">
+            <label for="cliente">Escolha um Cliente:</label>
+            <select name="cliente" id="cliente">
+                <option value="">Selecione...</option>
+                <?php
+                // Exibir os clientes em ordem alfabética
+                while ($cliente = $result_clientes->fetch_assoc()) {
+                    echo "<option value='" . $cliente['id_cliente'] . "'>" . htmlspecialchars($cliente['nome']) . "</option>";
+                }
+                ?>
             </select>
-            <button type="submit">Buscar</button>
+            <button type="submit" class="btn">Mostrar Veículos Alugados</button>
         </form>
 
-        <?php if ($id_cliente): ?>
-            <h2>Cliente Consultado: <?php echo htmlspecialchars($nome_cliente); ?></h2>
-        <?php endif; ?>
+        <?php
+        // Verificar se um cliente foi selecionado e mostrar os veículos alugados
+        if (isset($_POST['cliente']) && !empty($_POST['cliente'])) {
+            $id_cliente = $_POST['cliente'];
 
-        <?php if (isset($result) && $result->num_rows > 0): ?>
-            <h2>Veículos Alugados</h2>
-            <form method="POST" action="informar_km_final.php">
-                <table>
-                    <tr>
-                        <th>Selecionar</th>
-                        <th>Modelo do Veículo</th>
-                        <th>Km Inicial</th>
-                    </tr>
-                    <?php while ($row = $result->fetch_assoc()):
-                        var_dump($row); ?>
-                       <tr>
-    <td>
-        <input type="checkbox" name="aluguel_selecionado[]" value="<?php echo $row['veiculos_id_veiculo']; ?>">
-    </td>
-    <td><?php echo htmlspecialchars($row['modelo']); ?></td>
-    <td><?php echo htmlspecialchars($row['km_atual']); ?></td>
-</tr>
+            // 2. Consultar os veículos alugados pelo cliente selecionado
+            $sql_veiculos = "SELECT v.id_veiculo, v.modelo, av.km_inicial
+                             FROM veiculos v
+                             JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
+                             WHERE av.cliente_id = $id_cliente"; // Substitua 'cliente_id' pelo nome correto da coluna, se necessário.
 
+            $result_veiculos = $mysqli->query($sql_veiculos);
 
-                    <?php endwhile; ?>
-                </table>
-                <button type="submit">Informar Km Final</button>
-            </form>
-        <?php elseif (isset($result)): ?>
-            <p>Nenhum aluguel encontrado para o cliente selecionado.</p>
-        <?php endif; ?>
+            // Verificar se a consulta foi bem-sucedida
+            if ($result_veiculos === false) {
+                echo "Erro ao executar a consulta de veículos: " . $mysqli->error;
+                exit;
+            }
+
+            // Exibir os veículos alugados
+            if ($result_veiculos->num_rows > 0) {
+                echo "<table>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>KM Inicial</th>
+                        </tr>";
+
+                while ($veiculo = $result_veiculos->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($veiculo['modelo']) . "</td>
+                            <td>" . htmlspecialchars($veiculo['km_inicial']) . "</td>
+                          </tr>";
+                }
+                echo "</table>";
+            } else {
+                echo "<p>Nenhum veículo alugado encontrado para esse cliente.</p>";
+            }
+        }
+        ?>
     </div>
 </body>
-
 </html>
 
 <?php
-$stmt_clientes->close();
-if (isset($stmt)) {
-    $stmt->close();
+// Fechar a conexão com o banco de dados
+if (isset($mysqli)) {
+    $mysqli->close();
 }
-if (isset($stmt_nome_cliente)) {
-    $stmt_nome_cliente->close();
-}
-$conexao->close();
 ?>
