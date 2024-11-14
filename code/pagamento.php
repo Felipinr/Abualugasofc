@@ -1,12 +1,12 @@
 <?php
-// Incluir o arquivo de conexão com o banco de dados
+
 require_once('conexao.php');
 
-// 1. Selecionar todos os clientes em ordem alfabética
-$sql_clientes = "SELECT id_cliente, nome FROM clientes ORDER BY nome ASC";
 
+$sql = "SELECT id_cliente, nome FROM clientes";
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -90,36 +90,23 @@ $sql_clientes = "SELECT id_cliente, nome FROM clientes ORDER BY nome ASC";
             <label for="cliente">Escolha um Cliente:</label>
             <select name="cliente" id="cliente">
                 <option value="">Selecione...</option>
-                <?php
-                // Exibir os clientes em ordem alfabética
-                while ($cliente = $result_clientes->fetch_assoc()) {
-                    echo "<option value='" . $cliente['id_cliente'] . "'>" . htmlspecialchars($cliente['nome']) . "</option>";
-                }
-                ?>
+                
             </select>
             <button type="submit" class="btn">Mostrar Veículos Alugados</button>
         </form>
 
         <?php
-        // Verificar se um cliente foi selecionado e mostrar os veículos alugados
+        
         if (isset($_POST['cliente']) && !empty($_POST['cliente'])) {
             $id_cliente = $_POST['cliente'];
 
-            // 2. Consultar os veículos alugados pelo cliente selecionado
+          
             $sql_veiculos = "SELECT v.id_veiculo, v.modelo, av.km_inicial
                              FROM veiculos v
                              JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
-                             WHERE av.cliente_id = $id_cliente"; // Substitua 'cliente_id' pelo nome correto da coluna, se necessário.
+                             WHERE c.id_cliente = $id_cliente";
 
-            $result_veiculos = $mysqli->query($sql_veiculos);
 
-            // Verificar se a consulta foi bem-sucedida
-            if ($result_veiculos === false) {
-                echo "Erro ao executar a consulta de veículos: " . $mysqli->error;
-                exit;
-            }
-
-            // Exibir os veículos alugados
             if ($result_veiculos->num_rows > 0) {
                 echo "<table>
                         <tr>
@@ -143,9 +130,4 @@ $sql_clientes = "SELECT id_cliente, nome FROM clientes ORDER BY nome ASC";
 </body>
 </html>
 
-<?php
-// Fechar a conexão com o banco de dados
-if (isset($mysqli)) {
-    $mysqli->close();
-}
-?>
+
