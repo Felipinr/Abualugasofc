@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Aluguel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="jquery.validate.min.js"></script>
     <style>
         body {
             background-color: #f5f7fa;
@@ -95,7 +97,7 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="form-container col-lg-6 col-md-8 col-sm-10">
             <h2 class="form-heading text-center">Realizar Aluguel</h2>
-            <form action="cad_aluguel.php" method="POST">
+            <form id="form" action="cad_aluguel.php" method="POST">
                 <div class="mb-3">
                     <label for="funcionario" class="form-label">Funcionário:</label>
                     <select id="funcionario" name="id_funcionario" class="form-select" required>
@@ -130,7 +132,6 @@
     <footer class="footer text-center">
         <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
