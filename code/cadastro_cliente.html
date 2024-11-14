@@ -139,13 +139,15 @@
                         required: true,
                         minlength: 2
                     },
-                    cpf: {
+                    cpf_cnpj: {
                         required: true,
+                        digits: true,
                         minlength: 11,
-                        maxlength: 11
+                        maxlength: 14 // Considerando tanto CPF (11 dígitos) quanto CNPJ (14 dígitos)
                     },
                     telefone: {
                         required: false,
+                        digits: true,
                         minlength: 10
                     },
                     email: {
@@ -162,13 +164,16 @@
                         required: "O campo nome é obrigatório",
                         minlength: "O nome deve ter no mínimo 2 caracteres"
                     },
-                    cpf: {
-                        required: "O campo CPF é obrigatório",
-                        minlength: "O CPF deve ter 11 caracteres",
-                        maxlength: "O CPF deve ter 11 caracteres"
+                    cpf_cnpj: {
+                        required: "O campo CPF/CNPJ é obrigatório",
+                        digits: "O CPF/CNPJ deve conter apenas números",
+                        minlength: "O CPF deve ter no mínimo 11 caracteres",
+                        maxlength: "O CNPJ deve ter no máximo 14 caracteres"
                     },
                     telefone: {
+                        digits: "O telefone deve conter apenas números",
                         minlength: "O telefone deve ter no mínimo 10 caracteres"
+
                     },
                     email: {
                         email: "Digite um e-mail válido"
