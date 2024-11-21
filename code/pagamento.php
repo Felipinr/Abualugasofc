@@ -104,10 +104,10 @@ require_once 'conexao.php';
             $id_cliente = intval($_POST['cliente']);
             
             $sql_veiculos = "
-                SELECT v.id_veiculo, v.modelo, av.km_inicial
+                SELECT v.id_veiculo, v.modelo, v.km_atual
                 FROM veiculos v
                 JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
-                JOIN alugueis a ON av.id_aluguel = a.id_aluguel
+                JOIN alugueis a ON av.alugueis_id_aluguel = a.id_aluguel
                 WHERE a.id_cliente = $id_cliente";
 
             $result_veiculos = mysqli_query($conexao, $sql_veiculos);
@@ -131,6 +131,8 @@ require_once 'conexao.php';
             }
         }
         ?>
+        echo "<a href='pagamento2.php?id_cliente=$id_cliente' class='btn'>Pagamento</a>";
+
     </div>
 </body>
 

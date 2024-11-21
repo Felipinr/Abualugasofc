@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <form action="#">
+        <label for="produto">Produto:</label>
+        <select name="produto" id="produto">
+            <option value="pepsi">Pepsi</option>
+            <option value="cocacola">Coca-cola</option>
+        </select> <br><br>
+
+        <label for="unitario">Preço unitário: </label>
+        <input type="text" class="calculo" name="unitario" id="unitario" value="0"> <br><br>
+
+        <label for="quantidade">Quantidade comprada:</label>
+        <input type="text" class="calculo" name="quantidade" id="quantidade" value="1"> <br><br>
+
+        <label for="total">Valor a pagar (R$):</label>
+        <input type="text" name="total" id="total" value="0" disabled> <br><br>
+
+        <button>Gravar Compra</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $(".calculo").keyup(function () {
+                let unitario = $("#unitario").val();
+                let quantidade = $("#quantidade").val();
+
+                let total = unitario * quantidade;
+
+                $("#total").val(total);
+            });
+        });
+    </script>
+</body>
+
+</html>
