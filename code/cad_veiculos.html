@@ -225,90 +225,111 @@
         <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>
     <script>
-       $(document).ready(function() {
-        $("#form").validate({
-            rules: {
-                "modelo": {
-                    required: true,
-                    minlength: 3
+        $(document).ready(function() {
+            $("#form").validate({
+                rules: {
+                    "modelo": {
+                        required: true,
+                        minlength: 3,
+                    },
+                    "marca": {
+                        required: true,
+                        minlength: 4,
+                    },
+                    "ano": {
+                        required: true,
+                        min: 1901,
+                    },
+                    "placa": {
+                        required: true,
+                        minlength: 7,
+                        maxlength: 7,
+                    },
+                    "cor": {
+                        required: true,
+                        minlength: 4,
+                    },
+                    "km_atual": {
+                        required: true,
+                        min: 1,
+                    },
+                    "num_bancos": {
+                        required: true,
+                        min: 2,
+                    },
+                    "num_portas": {
+                        required: true,
+                        min: 2,
+                    },
+                    "combustivel": {
+                        required: true,
+                    },
+                    "cambio": {
+                        required: true,
+                    },
+                    "direcao": {
+                        required: true,
+                    },
                 },
-                "marca": {
-                    required: true,
-                    minlength: 4
+                messages: {
+                    modelo: {
+                        required: "O campo modelo é obrigatório.",
+                        minlength: "O campo deve ter no mínimo 3 caracteres.",
+                        pattern: "O modelo deve conter apenas letras e números."
+                    },
+                    marca: {
+                        required: "O campo marca é obrigatório.",
+                        minlength: "O campo deve ter no mínimo 4 caracteres.",
+                        pattern: "A marca deve conter apenas letras."
+                    },
+                    ano: {
+                        required: "O campo ano é obrigatório.",
+                        min: "O ano deve ser superior a 1900",
+                        digits: "O campo ano deve conter apenas números."
+                    },
+                    placa: {
+                        required: "O campo placa é obrigatório.",
+                        minlength: "O campo deve ter 7 caracteres.",
+                        maxlength: "O campo deve ter 7 caracteres.",
+                        pattern: "A placa deve conter apenas letras e números."
+                    },
+                    cor: {
+                        required: "O campo cor é obrigatório.",
+                        minlength: "O campo deve ter no mínimo 4 caracteres.",
+                        pattern: "A cor deve conter apenas letras."
+                    },
+                    km_atual: {
+                        required: "O campo km atual é obrigatório.",
+                        min: "O km deve ser maior que 0.",
+                        digits: "O campo km atual deve conter apenas números."
+                    },
+                    num_bancos: {
+                        required: "O campo número de bancos é obrigatório.",
+                        min: "O número de bancos deve ser superior a 1.",
+                        digits: "O campo número de bancos deve conter apenas números."
+                    },
+                    num_portas: {
+                        required: "O campo número de portas é obrigatório.",
+                        min: "O número de portas deve ser superior a 1.",
+                        digits: "O campo número de portas deve conter apenas números."
+                    },
+                    combustivel: {
+                        required: "O campo combustível é obrigatório."
+                    },
+                    cambio: {
+                        required: "O campo câmbio é obrigatório."
+                    },
+                    direcao: {
+                        required: "O campo direção é obrigatório."
+                    },
                 },
-                "ano": {
-                    required: true,
-                    min: 1901
-                },
-                "placa": {
-                    required: true,
-                    minlength: 7,
-                    maxlenght:7
-                },
-                "cor": {
-                    required: true,
-                    minlength: 4
-                },
-                "km_atual": {
-                    required: true
-                },
-                "num_bancos": {
-                    required: true
-                },
-                "num_portas": {
-                    required: true
-                },
-                "combustivel": {
-                    required: true
-                },
-                "cambio": {
-                    required: true
-                },
-                "direcao": {
-                    required: true
-                },
-            },
-            messages: {
-                modelo: {
-                    required: "O campo modelo é obrigatório."
-                },
-                marca: {
-                    required: "O campo marca é obrigatório.",
-                },
-                ano: {
-                    required: "O campo ano é obrigatório."
-                },
-                placa: {
-                    required: "O campo placa é obrigatório."
-                },
-                cor: {
-                    required: "O campo cor é obrigatório."
-                },
-                km_atual: {
-                    required: "O campo km_atual é obrigatório."
-                },
-                num_bancos: {
-                    required: "O campo número de bancos é obrigatório."
-                },
-                num_portas: {
-                    required: "O campo número de portas é obrigatório."
-                },
-                combustivel: {
-                    required: "O campo combustivel é obrigatório."
-                },
-                cambio: {
-                    required: "O campo câmbio é obrigatório."
-                },
-                direcao: {
-                    required: "O campo direção é obrigatório."
-                },
-            },
-            submitHandler: function(form) {
-                form.submit();
-            }
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
         });
-    });
-</script>
+    </script>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
