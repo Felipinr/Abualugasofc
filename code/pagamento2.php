@@ -1,5 +1,13 @@
 <?php
 require_once 'conexao.php';
+
+/**
+ * Exibe uma interface para selecionar empréstimos de clientes e processar pagamentos.
+ *
+ * @param mysqli    $conexao Conexão ativa com o banco de dados.
+ * @return void
+ */
+
 ?>
 
 <!DOCTYPE html>

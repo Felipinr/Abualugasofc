@@ -1,6 +1,22 @@
 <?php
 require_once 'conexao.php';
 
+/**
+ * Processa o aluguel de veículos antigos.
+ *
+ * Este script recebe dados via POST, insere um novo registro de aluguel na tabela 'alugueis',
+ * associa veículos ao aluguel e atualiza o status de disponibilidade dos veículos.
+ *
+ * @param mysqli    $conexao Conexão ativa com o banco de dados.
+ * @param int       $id_funcionario ID do funcionário responsável pelo aluguel.
+ * @param int       $id_cliente ID do cliente que está alugando.
+ * @param int       $id_veiculo ID do veículo principal do aluguel.
+ * @param string    $data_inicio Data de início do aluguel.
+ * @param string    $data_fim Data de fim previsto do aluguel.
+ * @param float     $valor_km Valor do quilômetro rodado.
+ * @param string    $veiculos Lista de IDs dos veículos adicionais.
+ * @return void
+ */
 
 if (!isset($_POST['id_funcionario'], $_POST['id_cliente'], $_POST['id_veiculo'], $_POST['data_inicio'], $_POST['data_fim'], $_POST['valor_km'], $_POST['veiculos'])) {
     die('Dados do formulário incompletos.');

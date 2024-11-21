@@ -1,5 +1,13 @@
 <?php
 require_once 'conexao.php';
+/**
+ * Obtém as informações de um aluguel selecionado e exibe um formulário para informar o quilômetro final do veículo.
+ *
+ * @param mysqli    $conexao                Conexão ativa com o banco de dados.
+ * @param int       $id_aluguel             ID do aluguel selecionado.
+ * @param int       $veiculos_id_veiculo    ID do veículo alugado.
+ * @return void
+ */
      
 if (isset($_POST['aluguel_selecionado'])) {
     $id_aluguel = $_POST['aluguel_selecionado'];

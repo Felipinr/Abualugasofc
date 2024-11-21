@@ -1,5 +1,14 @@
 <?php
 require_once 'conexao.php';
+
+/**
+ * Exibe um formulário para selecionar um cliente e listar os veículos alugados por ele.
+ * 
+ * @param mysqli        $conexao Conexão ativa com o banco de dados.
+ * @param int           $id_cliente ID do cliente selecionado.
+ * @return void
+ */
+
 ?>
 
 <!DOCTYPE html>

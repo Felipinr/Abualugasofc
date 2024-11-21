@@ -137,6 +137,15 @@
             <input type="hidden" name="id_funcionario" value="<?php echo $_POST['id_funcionario']; ?>">
             <input type="hidden" name="id_cliente" value="<?php echo $_POST['id_cliente']; ?>">
             <?php
+            /**
+             * Exibe uma lista de veículos disponíveis para seleção.
+             *
+             * Realiza uma consulta no banco de dados para obter os veículos disponíveis e gera
+             * os checkboxes correspondentes para seleção pelo usuário.
+             *
+             * @param mysqli $conexao Conexão ativa com o banco de dados.
+             * @return void
+             */
             require_once 'conexao.php';
             $query_veiculos = "SELECT id_veiculo, placa FROM veiculos WHERE disponivel = 1";
             $result_veiculos = mysqli_query($conexao, $query_veiculos);
