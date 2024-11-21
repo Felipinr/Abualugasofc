@@ -11,18 +11,11 @@ require_once 'core.php'
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selecionar Empréstimos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="estilos/style.css" />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-    <header class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="logo">
-            <h2>Sistema de Aluguéis de Veículos</h2>
-        </div>
-        <div class="user-info text-end">
-            <p>Data: 28/11/2024 - 13:55</p>
-        </div>
-    </header>
+    
 
     <nav class="navbar navbar-dark navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -77,10 +70,10 @@ require_once 'core.php'
             <?php
             require_once "conexao.php";
             require_once "core.php";
-            $id_cliente = $_GET['id_cliente'];
+            $id_cliente = $_POST['id_cliente'];
 
             $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
-            $quantidade = count($emprestimos); // Usando count para evitar problemas com tamanho do array
+            $quantidade = count($emprestimos); 
 
             if ($quantidade > 0) {
                 echo "<div class='mb-3'>";
@@ -88,7 +81,7 @@ require_once 'core.php'
                 echo "<select name='id_aluguel' id='id_aluguel' class='form-select' required>";
 
                 foreach ($emprestimos as $emprestimo) {
-                    $id_aluguel = $emprestimo['id_aluguel']; // Acessando os dados pela chave associativa
+                    $id_aluguel = $emprestimo['id_aluguel'];
                     $datainicial_aluguel = $emprestimo['datainicial_aluguel'];
                     $datafinal_aluguel = $emprestimo['datafinal_aluguel'];
 
@@ -106,14 +99,10 @@ require_once 'core.php'
             ?>
         </form>
         <div class="text-center">
-            <a href="pagamento_clienteSelect.php" class="btn btn-primary mt-3">Voltar</a>
-            <a href="atividades.php" class="btn btn-primary mt-3">Voltar a Página de Atividades</a>
+            <a href="pagamento.php" class="btn btn-primary mt-3">Voltar</a>
+            <a href="index.html" class="btn btn-primary mt-3">Voltar ao início</a>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2024 Instituto Federal Goiano. Todos os direitos reservados.</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
