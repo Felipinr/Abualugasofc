@@ -20,7 +20,7 @@ require_once "conexao.php";
  */
 function editarCarro($conexao, $id, $modelo, $marca, $ano, $placa, $cor, $km_atual, $tipo) {
     // Prepara a consulta SQL para atualizar os dados do carro.
-    $sql = "UPDATE veiculos SET modelo = ?, marca = ?, ano = ?, placa = ?, cor = ?, km_atual = ?, tipo = ? WHERE id_veiculo = ?";
+    $sql = "UPDATE veiculos SET modelo = ?, marca = ?, ano = ?, placa = ?, cor = ?, km_atual = ?, modelo = ? WHERE id_veiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     
     // Verifica se a preparação da consulta foi bem-sucedida.
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $placa = $carro['placa'];
     $cor = $carro['cor'];
     $km_atual = $carro['km_atual'];
-    $tipo = $carro['tipo'];
+    $tipo = $carro['modelo'];
 }
 ?>
 

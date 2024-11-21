@@ -1,14 +1,9 @@
 <?php
-
-require_once('conexao.php');
-
-
-$sql = "SELECT id_cliente, nome FROM clientes";
-
+require_once 'conexao.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -49,8 +44,7 @@ $sql = "SELECT id_cliente, nome FROM clientes";
             margin-top: 20px;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -89,43 +83,43 @@ $sql = "SELECT id_cliente, nome FROM clientes";
     <div class="container">
         <h1>Selecione um Cliente e Veículos Alugados</h1>
 
-        <form method="POST" action="pagamento.php">
+        <form method="POST" action="">
             <label for="cliente">Escolha um Cliente:</label>
-            <select name="cliente" id="cliente">
-                <select name="cliente" id="cliente" class="form-select" required>
-                    <option value=""></option>
-                    <?php
-                    require_once 'conexao.php';
-                    $query_clientes = "SELECT id_cliente, nome FROM clientes";
-                    $result_clientes = mysqli_query($conexao, $query_clientes);
-                    while ($row = mysqli_fetch_assoc($result_clientes)) {
-                        echo "<option value='{$row['id_cliente']}'>{$row['nome']}</option>";
-                    }
-                    ?>
-                </select>
-                <button type="submit" class="btn">Mostrar Veículos Alugados</button>
+            <select name="cliente" id="cliente" required>
+                <option value="">Selecione um cliente</option>
+                <?php
+                $query_clientes = "SELECT id_cliente, nome FROM clientes";
+                $result_clientes = mysqli_query($conexao, $query_clientes);
+
+                while ($row = mysqli_fetch_assoc($result_clientes)) {
+                    echo "<option value='{$row['id_cliente']}'>{$row['nome']}</option>";
+                }
+                ?>
+            </select>
+            <button type="submit" class="btn">Mostrar Veículos Alugados</button>
         </form>
 
         <?php
-
         if (isset($_POST['cliente']) && !empty($_POST['cliente'])) {
-            $id_cliente = $_POST['cliente'];
+            $id_cliente = intval($_POST['cliente']);
+            
+            $sql_veiculos = "
+                SELECT v.id_veiculo, v.modelo, av.km_inicial
+                FROM veiculos v
+                JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
+                JOIN alugueis a ON av.id_aluguel = a.id_aluguel
+                WHERE a.id_cliente = $id_cliente";
 
+            $result_veiculos = mysqli_query($conexao, $sql_veiculos);
 
-            $sql_veiculos = "SELECT v.id_veiculo, v.modelo, av.km_inicial
-                             FROM veiculos v
-                             JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
-                             WHERE c.id_cliente = $id_cliente";
-
-
-            if ($result_veiculos->num_rows > 0) {
+            if (mysqli_num_rows($result_veiculos) > 0) {
                 echo "<table>
                         <tr>
                             <th>Modelo</th>
                             <th>KM Inicial</th>
                         </tr>";
 
-                while ($veiculo = $result_veiculos->fetch_assoc()) {
+                while ($veiculo = mysqli_fetch_assoc($result_veiculos)) {
                     echo "<tr>
                             <td>" . htmlspecialchars($veiculo['modelo']) . "</td>
                             <td>" . htmlspecialchars($veiculo['km_inicial']) . "</td>
