@@ -107,10 +107,21 @@ require_once 'core.php'
         </form>
         <div class="text-center">
             <a href="pagamento_clienteSelect.php" class="btn btn-primary mt-3">Voltar</a>
+<<<<<<< Updated upstream
             <a href="atividades.php" class="btn btn-primary mt-3">Voltar</a>
         </div>
     </div>
 
+=======
+            <a href="atividades.php" class="btn btn-primary mt-3">Voltar a Página de Atividades</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Instituto Federal Goiano. Todos os direitos reservados.</p>
+    </footer>
+
+>>>>>>> Stashed changes
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
