@@ -84,6 +84,29 @@
                 height: 200px;
                 object-fit: cover;
             }
+            #modelo-error,
+            #marca-error,
+            #ano-error,
+            #placa-error,
+            #cor-error,
+            #km_atual-error,
+            #num_bancos-error,
+            #num_portas-error,
+            #combustivel-error,
+            #cambio-error, 
+            #direcao-error {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 0, 0, 0.8); /* Cor de fundo vermelha com opacidade */
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1000; /* Garante que a mensagem fique acima dos outros elementos */
+        }
     </style>
 </head>
 <body>
