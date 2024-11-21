@@ -306,3 +306,30 @@ function atualiza_km_atual($conexao, $km_atual, $idveiculo)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+
+function listarEmprestimoCliente($conexao, $id_cliente)
+{
+    $sql = "
+    SELECT e.*
+    FROM alugueis e
+    INNER JOIN clientes c ON e.id_cliente = c.id_cliente
+    WHERE c.id_cliente = ?";
+
+    $stmt = mysqli_prepare($conexao, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $id_cliente);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $datainicio, $datafim, $status);
+
+    $lista = [];
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        while (mysqli_stmt_fetch($stmt)) {
+            $lista[] = [$id_aluguel, $id_funcionario, $id_cliente, $datainicio, $datafim];
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+    return $lista;
+}
