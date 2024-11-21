@@ -53,7 +53,8 @@ require_once 'conexao.php';
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -111,12 +112,12 @@ require_once 'conexao.php';
         <?php
         if (isset($_POST['cliente']) && !empty($_POST['cliente'])) {
             $id_cliente = intval($_POST['cliente']);
-            
+
             $sql_veiculos = "
-                SELECT v.id_veiculo, v.modelo, av.km_inicial
+                SELECT v.id_veiculo, v.modelo, v.km_atual
                 FROM veiculos v
                 JOIN alugueis_veiculos av ON v.id_veiculo = av.veiculos_id_veiculo
-                JOIN alugueis a ON av.id_aluguel = a.id_aluguel
+                JOIN alugueis a ON av.alugueis_id_aluguel = a.id_aluguel
                 WHERE a.id_cliente = $id_cliente";
 
             $result_veiculos = mysqli_query($conexao, $sql_veiculos);
@@ -131,7 +132,7 @@ require_once 'conexao.php';
                 while ($veiculo = mysqli_fetch_assoc($result_veiculos)) {
                     echo "<tr>
                             <td>" . htmlspecialchars($veiculo['modelo']) . "</td>
-                            <td>" . htmlspecialchars($veiculo['km_inicial']) . "</td>
+                            <td>" . htmlspecialchars($veiculo['km_atual']) . "</td>
                           </tr>";
                 }
                 echo "</table>";
@@ -139,8 +140,11 @@ require_once 'conexao.php';
                 echo "<p>Nenhum veículo alugado encontrado para esse cliente.</p>";
             }
         }
+        echo "<a href='pagamento2.php?id_cliente='class='btn'>Pagamento</a>";
+
         ?>
     </div>
+
 </body>
 
 </html>

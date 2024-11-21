@@ -27,7 +27,7 @@ require_once 'conexao.php';
             <h2 class="m-0">Sistema de Aluguéis de Veículos</h2>
         </div>
         <div class="user-info text-end">
-            <a href="http://lattes.cnpq.br/3766134688368012" target="_blank" class="text-decoration-none">Proprietário: Lucas Faria</a>
+            <
             <p>Data: <?= date('d/m/Y - H:i'); ?></p>
         </div>
     </header>
