@@ -1,6 +1,17 @@
 <?php
 require_once 'conexao.php';
-require_once 'core.php'
+require_once 'core.php';
+
+// Verifica se o id_cliente foi enviado via POST
+if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
+    $id_cliente = $_POST['id_cliente'];
+    $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
+    $quantidade = count($emprestimos);
+} else {
+    // Caso o id_cliente não esteja presente, redireciona ou exibe um erro
+    echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, selecione um cliente.</div>";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +26,6 @@ require_once 'core.php'
 </head>
 
 <body>
-    
-
     <nav class="navbar navbar-dark navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,19 +72,14 @@ require_once 'core.php'
             </div>
         </div>
     </nav>
+
     <div class="container mt-5">
         <h3 class="text-center mb-4">Selecionar Empréstimo</h3>
 
-        <form action="pagamento_preencher.php" method="GET">
+        <form action="pagamento2.php" method="GET">
             <?php
-            require_once "conexao.php";
-            require_once "core.php";
-            $id_cliente = $_POST['id_cliente'];
-
-            $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
-            $quantidade = count($emprestimos); 
-
             if ($quantidade > 0) {
+                // Exibe o formulário para selecionar o empréstimo
                 echo "<div class='mb-3'>";
                 echo "<label for='id_aluguel' class='form-label'>Empréstimos:</label>";
                 echo "<select name='id_aluguel' id='id_aluguel' class='form-select' required>";
@@ -94,13 +98,15 @@ require_once 'core.php'
                 echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
                 echo "</div>";
             } else {
+                // Caso não haja empréstimos
                 echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
             }
             ?>
         </form>
-        <div class="text-center">
-            <a href="pagamento.php" class="btn btn-primary mt-3">Voltar</a>
-            <a href="index.html" class="btn btn-primary mt-3">Voltar ao início</a>
+
+        <div class="text-center mt-4">
+            <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+            <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
         </div>
     </div>
 
