@@ -138,27 +138,27 @@
         <div class="form-container">
             <h2 class="form-heading text-center">Detalhes do Aluguel</h2>
             <form id="form" action="processamentoaluguel.php" method="POST">
-                <input type="hidden" name="id_funcionario" value="<?php echo $_POST['id_funcionario']; ?>">
-                <input type="hidden" name="id_cliente" value="<?php echo $_POST['id_cliente']; ?>">
-                <input type="hidden" name="veiculos" value="<?php echo implode(',', $_POST['veiculos']); ?>">
+    <input type="hidden" name="id_funcionario" value="<?php echo $_POST['id_funcionario']; ?>">
+    <input type="hidden" name="id_cliente" value="<?php echo $_POST['id_cliente']; ?>">
+    <input type="hidden" name="veiculos" value="<?php echo implode(',', $_POST['veiculos']); ?>">
 
-                <div class="mb-3">
-                    <label for="data_inicio" class="form-label">Data de Início:</label>
-                    <input type="date" id="data_inicio" name="data_inicio" class="form-control" required>
-                </div>
+    <div class="mb-3">
+        <label for="data_inicio" class="form-label">Data de Início:</label>
+        <input type="date" id="data_inicio" name="data_inicio" class="form-control" required>
+    </div>
 
-                <div class="mb-3">
-                    <label for="data_fim" class="form-label">Data Prevista de Entrega:</label>
-                    <input type="date" id="data_fim" name="data_fim" class="form-control" required>
-                </div>
+    <div class="mb-3">
+        <label for="data_fim" class="form-label">Data Prevista de Entrega:</label>
+        <input type="date" id="data_fim" name="data_fim" class="form-control" required>
+    </div>
 
-                <div class="mb-3">
-                    <label for="valor_km" class="form-label">Valor do KM Rodado:</label>
-                    <input type="number" id="valor_km" name="valor_km" class="form-control" step="0.01" required>
-                </div>
+    <div class="mb-3">
+        <label for="valor_km" class="form-label">Valor do KM Rodado:</label>
+        <input type="number" id="valor_km" name="valor_km" class="form-control" step="0.01" required>
+    </div>
 
-                <button type="submit" class="btn btn-custom">Confirmar Aluguel</button>
-            </form>
+    <button type="submit" class="btn btn-custom">Confirmar Aluguel</button>
+</form>
         </div>
     </div>
 
