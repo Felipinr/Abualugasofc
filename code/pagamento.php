@@ -17,8 +17,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selecionar Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<<<<<<< Updated upstream
-=======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> 
     <link rel="stylesheet" href="estilos/style.css" />
@@ -62,10 +60,8 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
 
     </style>
 
->>>>>>> Stashed changes
 </head>
 <body>
-<<<<<<< Updated upstream
 
 <div class="container mt-5">
     <h3 class="text-center mb-4">Selecione um Cliente</h3>
@@ -83,7 +79,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
                 }
                 ?>
             </select>
-=======
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Carromeu e Julieta</a>
@@ -116,7 +111,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Mostrar Veículos Alugados</button>
             </form>
->>>>>>> Stashed changes
         </div>
         <div class="text-center">
             <input type="submit" value="Selecionar Cliente" class="btn btn-primary">
@@ -124,11 +118,9 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     </form>
 </div>
 
-<<<<<<< Updated upstream
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
-=======
         <script>
             $(document).ready(function () {
                 $("#form").validate({
@@ -157,4 +149,3 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
 </body>
 
 </html>
->>>>>>> Stashed changes
