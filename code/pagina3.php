@@ -137,55 +137,45 @@
 
 <script>
     $(document).ready(function() {
-        // Validação personalizada para garantir que a data de entrega seja após a data de início
+        // Método personalizado para verificar se a data final é após a data inicial
         $.validator.addMethod("afterStartDate", function(value, element) {
             var startDate = $("#data_inicio").val();
-            return Date.parse(value) > Date.parse(startDate);
+            return value && startDate && new Date(value) > new Date(startDate);
         }, "A data de entrega deve ser após a data de início.");
 
-        // Definindo a validação do formulário
+        // Validação do formulário
         $("#form").validate({
             rules: {
-                "data_inicio": {
+                data_inicio: {
+                    required: true,
+                    date: true
+                },
+                data_fim: {
                     required: true,
                     date: true,
-                    min: "2024-01-01" // Data mínima para 2024
+                    afterStartDate: true
                 },
-                "data_fim": {
-                    required: true,
-                    date: true,
-                    min: "2024-01-01", // Data mínima para 2024
-                    afterStartDate: true // Validação de data de entrega ser após a data de início
-                },
-                "valor_km": {
+                valor_km: {
                     required: true,
                     number: true,
-                    min: 0.1, // Valor mínimo do km
-                    pattern: /^[0-9]+(\.[0-9]{1,2})?$/ // Evita letras e caracteres especiais
+                    min: 0.01
                 }
             },
             messages: {
-                "data_inicio": {
+                data_inicio: {
                     required: "Por favor, informe a data de início.",
-                    date: "Por favor, informe uma data válida.",
-                    min: "A data de início deve ser no ano de 2024 ou posterior."
+                    date: "Por favor, informe uma data válida."
                 },
-                "data_fim": {
+                data_fim: {
                     required: "Por favor, informe a data de entrega.",
                     date: "Por favor, informe uma data válida.",
-                    min: "A data de entrega deve ser no ano de 2024 ou posterior.",
                     afterStartDate: "A data de entrega deve ser após a data de início."
                 },
-                "valor_km": {
-                    required: "Por favor, informe o valor do KM.",
-                    number: "Por favor, informe um número válido.",
-                    min: "O valor do KM deve ser superior a 0.1.",
-                    pattern: "O valor do KM não pode conter letras ou caracteres especiais."
+                valor_km: {
+                    required: "Por favor, informe o valor do KM rodado.",
+                    number: "Por favor, insira um valor válido.",
+                    min: "O valor do KM deve ser maior que 0."
                 }
-            },
-            errorPlacement: function(error, element) {
-                // Colocando as mensagens de erro na posição correta
-                error.insertAfter(element);
             },
             submitHandler: function(form) {
                 form.submit();

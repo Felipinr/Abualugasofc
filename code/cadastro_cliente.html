@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery-3.7.1.min.js"></script> <!-- Mantém a versão completa do jQuery -->
+    <script src="jquery.validate.min.js"></script> <!-- jQuery Validation -->
     <style>
         body {
             background-color: #f5f7fa;
@@ -137,13 +139,17 @@
                 rules: {
                     nome: {
                         required: true,
-                        minlength: 2
+                        minlength: 3,
                     },
                     cpf_cnpj: {
                         required: true,
                         digits: true,
                         minlength: 11,
-                        maxlength: 14 // Considerando tanto CPF (11 dígitos) quanto CNPJ (14 dígitos)
+                        maxlength: 14 
+                    },
+                    endereco: {
+                        required: true,
+                        minlength: 4,
                     },
                     telefone: {
                         required: false,
@@ -151,39 +157,59 @@
                         minlength: 10
                     },
                     email: {
-                        required: false,
-                        email: true
+                        required: true,
+                        email: true,
                     },
-                    senha: {
-                        required: false,
-                        minlength: 6
+
+                    carteira_motorista: {
+                        required: true,
+                        minlength: 5,
+                    },
+                    fisico_juridico: {
+                        required: true,
+                    },
+                    validade_carteira: {
+                        required: true,
                     }
                 },
                 messages: {
                     nome: {
                         required: "O campo nome é obrigatório",
-                        minlength: "O nome deve ter no mínimo 2 caracteres"
+                        minlength: "O nome deve ter no mínimo 3 caracteres",
                     },
                     cpf_cnpj: {
                         required: "O campo CPF/CNPJ é obrigatório",
                         digits: "O CPF/CNPJ deve conter apenas números",
                         minlength: "O CPF deve ter no mínimo 11 caracteres",
-                        maxlength: "O CNPJ deve ter no máximo 14 caracteres"
+                        maxlength: "O CNPJ deve ter no máximo 14 caracteres",
+                    },
+                    endereco: {
+                        required: "O campo é obrigatório",
+                        minlength: "Verifique seu endereço e tente novamente",
                     },
                     telefone: {
                         digits: "O telefone deve conter apenas números",
-                        minlength: "O telefone deve ter no mínimo 10 caracteres"
-
+                        minlength: "O telefone deve ter no mínimo 10 caracteres",
+                    },
+                    carteira_motorista: { 
+                        required: "O campo é obrigatório",
+                        minlength:"O campo deve ter no mínimo 5 caracteres",
+                    },
+                    fisico_juridico: {
+                        required: "Selecione o tipo de cliente",
+                    },
+                    validade_carteira: {
+                        required: "Selecione a data da validade da carteira",
                     },
                     email: {
-                        email: "Digite um e-mail válido"
-                    },
-                    senha: {
-                        minlength: "A senha deve ter no mínimo 6 caracteres"
+                        required: "Digíte seu email",
+                        email: "Preencha seu email corretamente",
                     }
                 }
             });
+            
         });
+    
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
