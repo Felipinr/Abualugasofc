@@ -8,7 +8,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
     $quantidade = count($emprestimos);
 } else {
-    // Caso o id_cliente não esteja presente, redireciona ou exibe um erro
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, selecione um cliente.</div>";
     exit;
 }
@@ -92,12 +91,11 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
                 }
                 echo "</select>";
                 echo "</div>";
-                echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";
+                echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";  
                 echo "<div class='text-center'>";
                 echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
                 echo "</div>";
             } else {
-                // Caso não haja empréstimos
                 echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
             }
             ?>
