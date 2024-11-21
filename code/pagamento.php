@@ -9,6 +9,8 @@ require_once 'conexao.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selecionar Cliente e Veículos Alugados</title>
+    <script src="jquery-3.7.1.min.js"></script> <!-- Mantém a versão completa do jQuery -->
+    <script src="jquery.validate.min.js"></script> <!-- jQuery Validation -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,6 +79,19 @@ require_once 'conexao.php';
         .btn:hover {
             background-color: #45a049;
         }
+        #cliente-error{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 0, 0, 0.8); /* Cor de fundo vermelha com opacidade */
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1000; /* Garante que a mensagem fique acima dos outros elementos */
+        }
     </style>
 </head>
 
@@ -84,7 +99,7 @@ require_once 'conexao.php';
     <div class="container">
         <h1>Selecione um Cliente e Veículos Alugados</h1>
 
-        <form method="POST" action="">
+        <form id="form" method="POST" action="">
             <label for="cliente">Escolha um Cliente:</label>
             <select name="cliente" id="cliente" required>
                 <option value="">Selecione um cliente</option>
@@ -134,6 +149,22 @@ require_once 'conexao.php';
         echo "<a href='pagamento2.php?id_cliente='class='btn'>Pagamento</a>";
 
         ?>
+<script>
+    $(document).ready(function () {
+        $("#form").validate({
+            rules: {
+                cliente: {
+                    required: true
+                }
+            },
+            messages: {
+                cliente: {
+                    required: "Selecione um cliente para realizar o pagamento do aluguel"
+                }
+            }
+        });
+    });
+</script>
     </div>
 
 </body>
