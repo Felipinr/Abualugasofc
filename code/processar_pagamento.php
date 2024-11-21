@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php'; 
+require_once 'conexao.php';
 
 /**
  * Processa o pagamento dos alugueis selecionados.
@@ -76,7 +76,7 @@ if (isset($_POST['alugueis_selecionados']) && !empty($_POST['alugueis_selecionad
                 JOIN veiculos v ON av.veiculos_id_veiculo = v.id_veiculo
                 JOIN alugueis a ON av.alugueis_id_aluguel = a.id_aluguel
                 WHERE av.alugueis_id_aluguel = ?";
-        
+
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("i", $id_aluguel);
         $stmt->execute();
@@ -136,4 +136,3 @@ if (isset($_POST['alugueis_selecionados']) && !empty($_POST['alugueis_selecionad
 } else {
     echo "Dados não foram fornecidos corretamente.";
 }
-?>

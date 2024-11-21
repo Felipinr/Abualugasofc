@@ -8,7 +8,7 @@ require_once 'conexao.php';
  * @param int       $veiculos_id_veiculo    ID do veículo alugado.
  * @return void
  */
-     
+
 if (isset($_POST['aluguel_selecionado'])) {
     $id_aluguel = $_POST['aluguel_selecionado'];
 
@@ -21,12 +21,12 @@ if (isset($_POST['aluguel_selecionado'])) {
         WHERE a.id_aluguel = ?";
 
 
-        if (isset($_POST['aluguel_selecionado'])) {
-            $veiculos_selecionados = $_POST['aluguel_selecionado'];
-            foreach ($veiculos_selecionados as $veiculos_id_veiculo) {
-            }
+    if (isset($_POST['aluguel_selecionado'])) {
+        $veiculos_selecionados = $_POST['aluguel_selecionado'];
+        foreach ($veiculos_selecionados as $veiculos_id_veiculo) {
         }
     }
+}
 if (isset($_POST['aluguel_selecionado'])) {
     $id_aluguel = $_POST['aluguel_selecionado'];
 
@@ -52,6 +52,7 @@ if (isset($_POST['aluguel_selecionado'])) {
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +82,8 @@ if (isset($_POST['aluguel_selecionado'])) {
             margin-bottom: 20px;
         }
 
-        input[type="number"], button {
+        input[type="number"],
+        button {
             display: block;
             width: 100%;
             padding: 10px;
@@ -91,7 +93,8 @@ if (isset($_POST['aluguel_selecionado'])) {
             box-sizing: border-box;
         }
 
-        input[type="number"]:focus, button:focus {
+        input[type="number"]:focus,
+        button:focus {
             border-color: #28a745;
             outline: none;
         }
@@ -114,6 +117,7 @@ if (isset($_POST['aluguel_selecionado'])) {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Informar Km Final</h1>
@@ -121,15 +125,16 @@ if (isset($_POST['aluguel_selecionado'])) {
         <p>Km Inicial: <?php echo ($km_inicial); ?></p>
 
         <form method="POST" action="calcular_valor.php">
-    <input type="hidden" name="id_aluguel" value="<?php echo $id_aluguel; ?>">
-    <input type="hidden" name="km_inicial" value="<?php echo $km_inicial; ?>">
-    <input type="hidden" name="valor_km" value="<?php echo $valor_km; ?>">
-    <label for="km_final">Km Final:</label>
-    <input type="number" name="km_final" id="km_final" required>
-    <button type="submit">Confirmar Pagamento</button>
-</form>
+            <input type="hidden" name="id_aluguel" value="<?php echo $id_aluguel; ?>">
+            <input type="hidden" name="km_inicial" value="<?php echo $km_inicial; ?>">
+            <input type="hidden" name="valor_km" value="<?php echo $valor_km; ?>">
+            <label for="km_final">Km Final:</label>
+            <input type="number" name="km_final" id="km_final" required>
+            <button type="submit">Confirmar Pagamento</button>
+        </form>
     </div>
 </body>
+
 </html>
 
 <?php
