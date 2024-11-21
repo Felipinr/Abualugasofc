@@ -79,7 +79,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
         <form action="pagamento2.php" method="GET">
             <?php
             if ($quantidade > 0) {
-                // Exibe o formulário para selecionar o empréstimo
                 echo "<div class='mb-3'>";
                 echo "<label for='id_aluguel' class='form-label'>Empréstimos:</label>";
                 echo "<select name='id_aluguel' id='id_aluguel' class='form-select' required>";
