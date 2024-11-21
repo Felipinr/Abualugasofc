@@ -186,7 +186,7 @@ function salvarVeiculo($conexao, $km, $marca, $modelo)
  * @param int $idcliente        ID do cliente.
  * @return int                  ID do empréstimo inserido.
  */
-function salvarEmprestimo($conexao, $idfuncionario, $idcliente)
+function salvarEmprestimoCore($conexao, $idfuncionario, $idcliente)
 {
     $sql = "INSERT INTO emprestimo (idfuncionario, idcliente) VALUES (?, ?)";
     $stmt = mysqli_prepare($conexao, $sql);
@@ -208,7 +208,7 @@ function salvarEmprestimo($conexao, $idfuncionario, $idcliente)
  * @param int $idveiculo        ID do veículo.
  * @return int                  ID da relação inserida.
  */
-function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo)
+function salvarVeiculoEmprestimocore($conexao, $idemprestimo, $idveiculo)
 {
     $km_inicial = kmInicialVeiculo($conexao, $idveiculo);
     $km_final = 0;
@@ -232,7 +232,7 @@ function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo)
  * @param int $idveiculo    ID do veículo.
  * @return string           Quilometragem inicial do veículo.
  */
-function kmInicialVeiculo($conexao, $idveiculo)
+function kmInicialVeiculocore($conexao, $idveiculo)
 {
     $sql = "SELECT km_atual FROM veiculo WHERE idveiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);

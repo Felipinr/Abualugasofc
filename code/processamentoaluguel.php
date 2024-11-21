@@ -1,20 +1,18 @@
 <?php
 require_once 'conexao.php';
-require_once 'tcpdf/tcpdf.php';
+require_once ('TCPDF-main/tcpdf.php');
+require_once 'core.php';
 
-// Recebe os dados do formulário
 $id_funcionario = $_POST['id_funcionario'];
 $id_cliente = $_POST['id_cliente'];
-$veiculos = explode(',', $_POST['veiculos']); // Transforma a string em array
+$veiculos = explode(',', $_POST['veiculos']); 
 
 $data_inicio = $_POST['data_inicio'];
 $data_fim = $_POST['data_fim'];
 $valor_km = $_POST['valor_km'];
 
-// Aqui você pode adicionar o código para armazenar as informações no banco de dados (caso necessário)
 
 
-// Gerar o PDF com os dados recebidos
 $pdf = new TCPDF();
 $pdf->AddPage();
 $pdf->SetFont('helvetica', '', 12);
