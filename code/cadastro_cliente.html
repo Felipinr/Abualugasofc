@@ -154,7 +154,8 @@
                     telefone: {
                         required: false,
                         digits: true,
-                        minlength: 10
+                        minlength: 10,
+                        maxlength:12
                     },
                     email: {
                         required: true,
@@ -180,8 +181,8 @@
                     cpf_cnpj: {
                         required: "O campo CPF/CNPJ é obrigatório",
                         digits: "O CPF/CNPJ deve conter apenas números",
-                        minlength: "O CPF deve ter no mínimo 11 caracteres",
-                        maxlength: "O CNPJ deve ter no máximo 14 caracteres",
+                        minlength: "O CPF deve ter no mínimo 11 caracteres sem pontos e sem hífen",
+                        maxlength: "O CNPJ deve ter no máximo 14 caracteres sem pontos e sem hífen",
                     },
                     endereco: {
                         required: "O campo é obrigatório",
@@ -190,6 +191,7 @@
                     telefone: {
                         digits: "O telefone deve conter apenas números",
                         minlength: "O telefone deve ter no mínimo 10 caracteres",
+                        maxlength: "Máximo excedido",
                     },
                     carteira_motorista: { 
                         required: "O campo é obrigatório",
