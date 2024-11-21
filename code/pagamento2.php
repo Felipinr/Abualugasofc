@@ -1,6 +1,17 @@
 <?php
 require_once 'conexao.php';
-require_once 'core.php'
+require_once 'core.php';
+
+// Verifica se o id_cliente foi enviado via POST
+if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
+    $id_cliente = $_POST['id_cliente'];
+    $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
+    $quantidade = count($emprestimos);
+} else {
+    // Caso o id_cliente não esteja presente, redireciona ou exibe um erro
+    echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, selecione um cliente.</div>";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,19 +22,10 @@ require_once 'core.php'
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selecionar Empréstimos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="estilos/style.css" />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-    <header class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="logo">
-            <h2>Sistema de Aluguéis de Veículos</h2>
-        </div>
-        <div class="user-info text-end">
-            <p>Data: 28/11/2024 - 13:55</p>
-        </div>
-    </header>
-
     <nav class="navbar navbar-dark navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,25 +72,20 @@ require_once 'core.php'
             </div>
         </div>
     </nav>
+
     <div class="container mt-5">
         <h3 class="text-center mb-4">Selecionar Empréstimo</h3>
 
-        <form action="pagamento_preencher.php" method="GET">
+        <form action="pagamento2.php" method="GET">
             <?php
-            require_once "conexao.php";
-            require_once "core.php";
-            $id_cliente = $_GET['id_cliente'];
-
-            $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
-            $quantidade = count($emprestimos); // Usando count para evitar problemas com tamanho do array
-
             if ($quantidade > 0) {
+                // Exibe o formulário para selecionar o empréstimo
                 echo "<div class='mb-3'>";
                 echo "<label for='id_aluguel' class='form-label'>Empréstimos:</label>";
                 echo "<select name='id_aluguel' id='id_aluguel' class='form-select' required>";
 
                 foreach ($emprestimos as $emprestimo) {
-                    $id_aluguel = $emprestimo['id_aluguel']; // Acessando os dados pela chave associativa
+                    $id_aluguel = $emprestimo['id_aluguel'];
                     $datainicial_aluguel = $emprestimo['datainicial_aluguel'];
                     $datafinal_aluguel = $emprestimo['datafinal_aluguel'];
 
@@ -101,19 +98,17 @@ require_once 'core.php'
                 echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
                 echo "</div>";
             } else {
+                // Caso não haja empréstimos
                 echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
             }
             ?>
         </form>
-        <div class="text-center">
-            <a href="pagamento_clienteSelect.php" class="btn btn-primary mt-3">Voltar</a>
-            <a href="atividades.php" class="btn btn-primary mt-3">Voltar a Página de Atividades</a>
+
+        <div class="text-center mt-4">
+            <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+            <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2024 Instituto Federal Goiano. Todos os direitos reservados.</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

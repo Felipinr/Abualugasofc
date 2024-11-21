@@ -295,14 +295,14 @@ function atualiza_km_final($conexao, $km_final, $idemprestimo, $idveiculo)
  *
  * @param mysqli $conexao   conexão ativa com o banco de dados.
  * @param int $km_atual     Quilometragem atual do veículo.
- * @param int $idveiculo    ID do veículo.
+ * @param int $id_veiculo    ID do veículo.
  */
-function atualiza_km_atual($conexao, $km_atual, $idveiculo)
+function atualiza_km_atual($conexao, $km_atual, $id_veiculo)
 {
-    $sql = "UPDATE veiculo SET km_atual = ? WHERE idveiculo = ?";
+    $sql = "UPDATE veiculo SET km_atual = ? WHERE id_veiculo = ?";
     $stmt = mysqli_prepare($conexao, $sql);
 
-    mysqli_stmt_bind_param($stmt, "ii", $km_atual, $idveiculo);
+    mysqli_stmt_bind_param($stmt, "ii", $km_atual, $id_veiculo);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
@@ -322,15 +322,15 @@ function listarEmprestimoCliente($conexao, $id_cliente)
         v.modelo, 
         v.placa, 
         v.km_atual, 
-        c.nome_cliente
+        c.nome
     FROM 
         alugueis a
     INNER JOIN 
         clientes c ON a.id_cliente = c.id_cliente
     INNER JOIN 
-        alugueis_veiculos av ON a.id_aluguel = av.id_aluguel
+        alugueis_veiculos av ON a.id_aluguel = av.alugueis_id_aluguel
     INNER JOIN 
-        veiculos v ON av.id_veiculo = v.id_veiculo
+        veiculos v ON av.veiculos_id_veiculo = v.id_veiculo
     WHERE 
         a.id_cliente = ?";  
 
@@ -339,7 +339,7 @@ function listarEmprestimoCliente($conexao, $id_cliente)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
 
-    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $datainicio, $datafim, $id_veiculo, $modelo, $placa, $km_atual, $nome_cliente);
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $data_inicio, $data_fim, $id_veiculo, $modelo, $placa, $km_atual, $nome);
 
     $lista = [];
     if (mysqli_stmt_num_rows($stmt) > 0) {
@@ -349,13 +349,13 @@ function listarEmprestimoCliente($conexao, $id_cliente)
                 'id_aluguel' => $id_aluguel,
                 'id_funcionario' => $id_funcionario,
                 'id_cliente' => $id_cliente,
-                'datainicio' => $datainicio,
-                'datafim' => $datafim,
+                'data_inicio' => $data_inicio,
+                'data_fim' => $data_fim,
                 'id_veiculo' => $id_veiculo,
                 'modelo' => $modelo,
                 'placa' => $placa,
                 'km_atual' => $km_atual,
-                'nome_cliente' => $nome_cliente
+                'nome' => $nome
             ];
         }
     }
