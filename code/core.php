@@ -306,3 +306,44 @@ function atualiza_km_atual($conexao, $km_atual, $idveiculo)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+
+function listarEmprestimoCliente($conexao, $id_cliente)
+{
+    $sql = "
+    SELECT e.*
+<<<<<<< Updated upstream
+    FROM alugueis e
+    INNER JOIN clientes c ON e.id_cliente = c.id_cliente
+    WHERE c.id_cliente = ?";
+=======
+    FROM emprestimos e
+    INNER JOIN clientes c ON e.id_cliente = c.id_cliente
+    WHERE c.id_cliente = ? AND e.status = 'Pendente'";
+>>>>>>> Stashed changes
+
+    $stmt = mysqli_prepare($conexao, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $id_cliente);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+<<<<<<< Updated upstream
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $datainicio, $datafim, $status);
+=======
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $datainicial_aluguel, $datafinal_aluguel, $status);
+>>>>>>> Stashed changes
+
+    $lista = [];
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        while (mysqli_stmt_fetch($stmt)) {
+<<<<<<< Updated upstream
+            $lista[] = [$id_aluguel, $id_funcionario, $id_cliente, $datainicio, $datafim];
+=======
+            $lista[] = [$id_aluguel, $id_funcionario, $id_cliente, $datainicial_aluguel, $datafinal_aluguel];
+>>>>>>> Stashed changes
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+    return $lista;
+}
