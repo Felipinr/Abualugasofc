@@ -25,52 +25,6 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="atividades.php">Todas as Ações</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="formEmprestimo.php">Alugar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pagamento_clienteSelect.php">Pagar</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Registros
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="listar_alugueis.php">Listar Aluguéis</a></li>
-                            <li><a class="dropdown-item" href="listar_clientes.php">Listar Clientes</a></li>
-                            <li><a class="dropdown-item" href="listar_funcionarios.php">Listar Funcionários</a></li>
-                            <li><a class="dropdown-item" href="listar_pagamentos.php">Listar Pagamentos</a></li>
-                            <li><a class="dropdown-item" href="listar_veiculos.php">Listar Veículos</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Cadastros
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="cadastro_empresa.php">Cadastrar uma Empresa</a></li>
-                            <li><a class="dropdown-item" href="cadastro_funcionario.php">Cadastrar um Funcionário</a></li>
-                            <li><a class="dropdown-item" href="cadastro_pessoa.php">Cadastrar uma Pessoa</a></li>
-                            <li><a class="dropdown-item" href="cadastro_veiculo.php">Cadastrar um Veículo</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a id="deslogar" class="nav-link" href="deslogar.php">Fazer Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <div class="container mt-5">
         <h3 class="text-center mb-4">Selecionar Empréstimo</h3>
@@ -79,15 +33,15 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
             <?php
             if ($quantidade > 0) {
                 echo "<div class='mb-3'>";
-                echo "<label for='id_aluguel' class='form-label'>Empréstimos:</label>";
-                echo "<select name='id_aluguel' id='id_aluguel' class='form-select' required>";
+                echo "<label for='modelo' class='form-label'>Empréstimos:</label>";
+                echo "<select name='modelo' id='modelo' class='form-select' required>";
 
                 foreach ($emprestimos as $emprestimo) {
-                    $id_aluguel = $emprestimo['id_aluguel'];
-                    $datainicial_aluguel = $emprestimo['datainicial_aluguel'];
-                    $datafinal_aluguel = $emprestimo['datafinal_aluguel'];
+                    $modelo = $emprestimo['modelo'];
+                    $marca = $emprestimo['marca'];
+                    $placa = $emprestimo['placa'];
 
-                    echo "<option value='$id_aluguel'>$datainicial_aluguel > $datafinal_aluguel</option>";
+                    echo "<option value='$modelo'> $marca > $placa</option>";
                 }
                 echo "</select>";
                 echo "</div>";
