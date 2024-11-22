@@ -26,40 +26,46 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
 
 <body>
 
-    <div class="container mt-5">
-        <h3 class="text-center mb-4">Selecionar Empréstimo</h3>
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Selecionar Empréstimo</h3>
 
-        <form action="pagamento2.php" method="GET">
-            <?php
-            if ($quantidade > 0) {
-                echo "<div class='mb-3'>";
-                echo "<label for='modelo' class='form-label'>Empréstimos:</label>";
-                echo "<select name='modelo' id='modelo' class='form-select' required>";
+    <form action="pagamento2.php" method="GET">
+        <?php
+        if ($quantidade > 0) {
+            echo "<div class='mb-3'>";
+            echo "<label class='form-label'>Empréstimos:</label>";
+            echo "<div class='list-group'>"; // Usando uma lista para exibir os carros
 
-                foreach ($emprestimos as $emprestimo) {
-                    $modelo = $emprestimo['modelo'];
-                    $marca = $emprestimo['marca'];
-                    $placa = $emprestimo['placa'];
+            // Itera sobre os empréstimos e exibe as informações dos carros
+            foreach ($emprestimos as $emprestimo) {
+                $modelo = $emprestimo['modelo'];
+                $placa = $emprestimo['placa'];
 
-                    echo "<option value='$modelo'> $marca > $placa</option>";
-                }
-                echo "</select>";
+                // Exibe os veículos em uma lista
+                echo "<div class='list-group-item'>";
+                echo "<strong>Modelo:</strong> $modelo <br>";
+                echo "<strong>Placa:</strong> $placa <br>";
                 echo "</div>";
-                echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";  
-                echo "<div class='text-center'>";
-                echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
-                echo "</div>";
-            } else {
-                echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
             }
-            ?>
-        </form>
 
-        <div class="text-center mt-4">
-            <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
-            <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
-        </div>
+            echo "</div>"; // Fecha a lista de veículos
+            echo "</div>";
+            echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";  
+            echo "<div class='text-center'>";
+            echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
+            echo "</div>";
+        } else {
+            echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
+        }
+        ?>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+        <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
     </div>
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
