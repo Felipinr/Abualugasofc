@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleção de Funcionário e Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="jquery.validate.min.js"></script>
     <style>
         body {
             background-color: #f5f7fa;
@@ -136,7 +138,7 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="form-container">
             <h2 class="form-heading text-center">Selecione Funcionário e Cliente</h2>
-            <form action="pagina2.php" method="POST">
+            <form id="form" action="pagina2.php" method="POST">
                 <div class="mb-3">
                     <label for="funcionario" class="form-label">Funcionário:</label>
                     <select id="funcionario" name="id_funcionario" class="form-select" required>
