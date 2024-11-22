@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lista de Funcionários</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Funcionários</title>
     <!-- Inclui o Bootstrap 5.3.0 para o estilo e layout -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -15,33 +14,39 @@
             min-height: 100vh;
             background-color: #f5f7fa;
         }
+
         .navbar {
             background-color: #343a40;
         }
+
         .navbar-brand {
             font-weight: bold;
             font-size: 1.5rem;
         }
+
         .navbar-nav .nav-link {
             color: #ffffff !important;
         }
+
         .navbar-nav .nav-link:hover {
             background-color: #495057;
             border-radius: 5px;
         }
+
         .footer {
             margin-top: auto;
             padding: 20px 0;
             background-color: #343a40;
             color: white;
         }
+
         .table-container {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        </style>
+    </style>
 </head>
 
 <body>
@@ -54,14 +59,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    </ul>
-                </div>
+                </ul>
             </div>
-        </nav>
-        
-        <!-- Contêiner da Tabela de Funcionários -->
-        <div class="container mt-5 table-container">
-            <h1 class="text-center mb-4">Lista de Funcionários</h1>
+        </div>
+    </nav>
+
+    <!-- Contêiner da Tabela de Funcionários -->
+    <div class="container mt-5 table-container">
+        <h1 class="text-center mb-4">Lista de Funcionários</h1>
 
         <!-- Tabela com os dados dos funcionários -->
         <table class="table table-striped table-bordered">
@@ -114,9 +119,14 @@
 
         <!-- Botão para voltar à página inicial -->
         <div class="text-center mt-4">
-            <a href="index.html" class="btn btn-primary"><< Página inicial</a><br><br>
+            <a href="index.html" class="btn btn-primary">
+                << Página inicial</a><br><br>
         </div>
     </div>
+    <div class="text-center mt-4">
+        <a href="gerar_pdffunc.php" class="btn btn-success">Gerar PDF</a>
+    </div>
+
 
     <!-- Rodapé -->
     <footer class="footer text-center">

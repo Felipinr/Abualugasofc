@@ -13,26 +13,32 @@
             min-height: 100vh;
             background-color: #f5f7fa;
         }
+
         .navbar {
             background-color: #343a40;
         }
+
         .navbar-brand {
             font-weight: bold;
             font-size: 1.5rem;
         }
+
         .navbar-nav .nav-link {
             color: #ffffff !important;
         }
+
         .navbar-nav .nav-link:hover {
             background-color: #495057;
             border-radius: 5px;
         }
+
         .footer {
             margin-top: auto;
             padding: 20px 0;
             background-color: #343a40;
             color: white;
         }
+
         .table-container {
             background-color: #ffffff;
             padding: 20px;
@@ -43,7 +49,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Carromeu e julieta</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,12 +122,18 @@
         </table>
 
         <div class="text-center mt-4">
-            <a href="index.html" class="btn btn-primary"><< Página inicial</a><br><br>
+            <a href="index.html" class="btn btn-primary">
+                << Página inicial</a><br><br>
         </div>
     </div>
 
+    <div class="text-center mt-4">
+        <a href="gerar_pdfcli.php" class="btn btn-success">Gerar PDF</a>
+    </div>
+
+
     <footer class="footer text-center">
-    <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
+        <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

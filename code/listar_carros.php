@@ -147,6 +147,9 @@
             <a href="index.html" class="btn btn-primary"><< Página inicial</a><br><br>
         </div>
     </div>
+    <div class="text-center mt-4">
+    <a href="gerar_pdf.php" class="btn btn-success">Gerar PDF</a>
+</div>
 
     <footer class="footer text-center">
     <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
