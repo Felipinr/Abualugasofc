@@ -52,14 +52,15 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
             echo "</div>";
             echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";  
             echo "<div class='text-center'>";
-            echo "<input type='submit' value='Preencher dados do pagamento' class='btn btn-primary'>";
             echo "</div>";
         } else {
             echo "<div class='alert alert-warning' role='alert'>Não há empréstimos para esse cliente.</div>";
         }
         ?>
     </form>
-
+    <div class="text-center mt-4">
+        <a href="pagamento3.php?id_cliente=<?php echo $id_cliente; ?>" class="btn btn-success">Ir para Pagamento 3</a>
+    </div>
     <div class="text-center mt-4">
         <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
         <a href="index.html" class="btn btn-secondary">Voltar ao início</a>

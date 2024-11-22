@@ -1,5 +1,8 @@
 <?php
-require_once 'testalogin.php';
+require_once 'conexao.php';
+require_once 'core.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -17,119 +20,18 @@ require_once 'testalogin.php';
 </head>
 
 <body>
-    <header
-        class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="logo">
-            <h2>Sistema de Aluguéis de Veículos</h2>
-        </div>
-        <div class="user-info text-end">
-            <a href="http://lattes.cnpq.br/3766134688368012" target="_blank" class="text-decoration-none">Proprietário: Lucas Faria</a>
-            <p>Data: 28/11/2024 - 13:55</p>
-        </div>
-    </header>
-
-    <nav class="navbar navbar-dark navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a
-                            class="nav-link active"
-                            aria-current="page"
-                            href="atividades.php">Todas as Ações</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="formEmprestimo.php">Alugar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pagamento_clienteSelect.php">Pagar</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Registros
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="listar_alugueis.php">Listar Aluguéis</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="listar_clientes.php">Listar Clientes</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="listar_funcionarios.php">Listar Funcionários</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="listar_pagamentos.php">Listar Pagamentos</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="listar_veiculos.php">Listar Veículos</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Cadastros
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="cadastro_empresa.php">Cadastrar uma Empresa</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="cadastro_funcionario.php">Cadastrar um Funcionário</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="cadastro_pessoa.php">Cadastrar uma Pessoa</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="cadastro_veiculo.php">Cadastrar um Veículo</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a id="deslogar" class="nav-link" href="deslogar.php">Fazer Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Lançar Pagamento</h2>
         <form id="formPagamento" action="pagamento_terminar.php" method="POST">
-            <input type="hidden" name="id_aluguel" value="<?php echo $_GET['id_aluguel']; ?>">
+            <input type="hidden" name="id_aluguel">
 
             <div class="mb-3">
                 <label for="data_pagamento" class="form-label">Data Atual:</label>
                 <input type="date" name="data_pagamento" class="form-control" required>
             </div>
 
-            <div class="mb-3">
-                <label for="metodo" class="form-label">Método de Pagamento:</label>
-                <select name="metodo" class="form-select" required>
-                    <option value="Dinheiro">Dinheiro</option>
-                    <option value="Cartão">Cartão</option>
-                </select>
-            </div>
+             <option value='$metodo_nome'>$metodo_pagamento</option>
 
             <div class="mb-3">
                 <label for="preco_por_km" class="form-label">Preço por KM:</label>
@@ -149,8 +51,6 @@ require_once 'testalogin.php';
             <h4>Veículos</h4>
             <hr>
             <?php
-            require_once "conexao.php";
-            require_once "operacoes.php";
 
             $carros = listarVeiculosEmprestimo($conexao, $_GET['id_aluguel']);
 
@@ -177,15 +77,11 @@ require_once 'testalogin.php';
                 <input type="submit" value="Lançar Pagamento" class="btn btn-primary">
             </div>
         </form>
-        <div class="text-center">
-            <a href="pagamento_emprestimoSelect.php" class="btn btn-primary mt-3">Voltar</a>
-            <a href="atividades.php" class="btn btn-primary mt-3">Voltar a Página de Atividades</a>
-        </div>
+         <div class="text-center mt-4">
+        <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+        <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
     </div>
-
-    <footer>
-        <p>&copy; 2024 Instituto Federal Goiano. Todos os direitos reservados.</p>
-    </footer>
+    </div>
 
     <script>
         $(document).ready(function() {

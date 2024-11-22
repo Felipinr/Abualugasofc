@@ -363,3 +363,35 @@ function listarEmprestimoCliente($conexao, $id_cliente)
     mysqli_stmt_close($stmt);
     return $lista;
 }
+
+function listarVeiculosEmprestimo($conexao, $id_aluguel)
+{
+    $sql = "SELECT v.modelo, v.marca, v.placa 
+            FROM alugueis_veiculos a
+            JOIN veiculo v ON av.veiculos_id_veiculo = v.id_veiculo
+            WHERE a.alugueis_id_aluguel = ?";
+    
+    $stmt = mysqli_prepare($conexao, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $id_aluguel);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    
+    mysqli_stmt_bind_result($stmt, $modelo, $marca, $placa);
+
+    $lista = [];
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+
+        while (mysqli_stmt_fetch($stmt)) {
+           
+            $lista[] = [
+                'modelo' => $modelo,
+                'marca' => $marca,
+                'placa' => $placa
+            ];
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+    return $lista;
+}
