@@ -59,7 +59,7 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
         ?>
     </form>
     <div class="text-center mt-4">
-        <a href="pagamento3.php?id_cliente=<?php echo $id_cliente; ?>" class="btn btn-success">Ir para Pagamento 3</a>
+        <a href="pagamento3.php?id_cliente=<?php echo $id_cliente; ?>" class="btn btn-success">>>Próxima página<<</a>
     </div>
     <div class="text-center mt-4">
         <a href="pagamento.php" class="btn btn-secondary">Voltar</a>

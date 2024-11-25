@@ -477,4 +477,30 @@ function listarMetodosPagamento($conexao) {
     
     return $metodos;
 }
-?>
+
+function listarVeiculosEmprestimos($conexao, $id_aluguel) {
+    $query = "
+        SELECT 
+            veiculos.id_veiculo,
+            veiculos.modelo,
+            veiculos.placa,
+            alugueis.km_inicial,
+            alugueis.preco_por_km
+        FROM alugueis
+        JOIN veiculos ON alugueis.id_veiculo = veiculos.id_veiculo
+        JOIN alugueis ON alugueis.id_aluguel = alugueis.id_aluguel
+        WHERE alugueis.id_aluguel = ?
+    ";
+
+    $stmt = mysqli_prepare($conexao, $query);
+    mysqli_stmt_bind_param($stmt, 'i', $id_aluguel);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    $veiculos = [];
+    while ($row = mysqli_fetch_assoc($resultado)) {
+        $veiculos[] = $row;
+    }
+
+    return $veiculos;
+}
