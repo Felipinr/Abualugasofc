@@ -90,7 +90,6 @@
             
                 require_once "conexao.php";
                 require_once "core.php";
-                require_once 'login2.php';
 
                 $resultados = listarFuncionarios($conexao);
 

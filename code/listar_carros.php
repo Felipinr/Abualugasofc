@@ -77,7 +77,6 @@
             <?php
                 require_once "conexao.php";
                 require_once "core.php";
-                require_once 'login2.php';
 
                 /**
                  * Função para pegar a última data de aluguel de um veículo.

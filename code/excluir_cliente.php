@@ -18,7 +18,6 @@
 
          
 require_once "conexao.php";
-require_once 'login2.php';
 
 if (!isset($_GET['id'])) {
 

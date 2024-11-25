@@ -171,7 +171,6 @@
 
                             <?php
                             require_once 'conexao.php';
-                            require_once 'login2.php';
 
                             $query_funcionarios = "SELECT id_funcionario, nome FROM funcionarios";
                             $result_funcionarios = mysqli_query($conexao, $query_funcionarios);

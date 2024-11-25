@@ -1,7 +1,6 @@
 <?php
 require_once 'conexao.php';
 require_once 'core.php';
-require_once 'login2.php';
 
 $id_aluguel = $_GET['alugueis_id_aluguel'];
 $veiculos = listarVeiculosEmprestimos($conexao, $id_aluguel);

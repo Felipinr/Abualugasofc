@@ -1,9 +1,7 @@
 <?php
 require_once 'conexao.php';
 require_once 'core.php';
-require_once 'login2.php';
 
-// Verifica se o id_cliente foi enviado via POST
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $id_cliente = $_POST['id_cliente'];
     $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
@@ -35,21 +33,21 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
         if ($quantidade > 0) {
             echo "<div class='mb-3'>";
             echo "<label class='form-label'>Empréstimos:</label>";
-            echo "<div class='list-group'>"; // Usando uma lista para exibir os carros
+            echo "<div class='list-group'>"; 
 
-            // Itera sobre os empréstimos e exibe as informações dos carros
+            
             foreach ($emprestimos as $emprestimo) {
                 $modelo = $emprestimo['modelo'];
                 $placa = $emprestimo['placa'];
 
-                // Exibe os veículos em uma lista
+                
                 echo "<div class='list-group-item'>";
                 echo "<strong>Modelo:</strong> $modelo <br>";
                 echo "<strong>Placa:</strong> $placa <br>";
                 echo "</div>";
             }
 
-            echo "</div>"; // Fecha a lista de veículos
+            echo "</div>";
             echo "</div>";
             echo "<input type='hidden' name='id_cliente' value='$id_cliente'>";  
             echo "<div class='text-center'>";

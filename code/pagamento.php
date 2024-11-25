@@ -1,7 +1,6 @@
 <?php
 require_once 'conexao.php';
 require_once 'core.php';
-require_once 'login2.php';
 
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $id_cliente = $_POST['id_cliente'];

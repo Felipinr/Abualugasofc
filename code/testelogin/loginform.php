@@ -9,7 +9,6 @@
 
     <!-- Estilo personalizado -->
     <style>
-        /* Fundo com gradiente suave */
         body {
             background: linear-gradient(135deg, #6e7dff, #3f56e7);
             font-family: 'Arial', sans-serif;
@@ -20,7 +19,6 @@
             align-items: center;
         }
 
-        /* Centralizando o conteúdo */
         .login-container {
             display: flex;
             justify-content: center;
@@ -28,7 +26,6 @@
             width: 100%;
         }
 
-        /* Estilizando o card */
         .card {
             width: 100%;
             max-width: 450px;
@@ -41,10 +38,9 @@
         }
 
         .card:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);  /* Sombra mais intensa ao passar o mouse */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        /* Estilo do título */
         .card-title {
             font-size: 32px;
             font-weight: 700;
@@ -53,34 +49,49 @@
             text-align: center;
         }
 
-        /* Estilo dos campos de input */
+        .form-control-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
         .form-control {
-            border-radius: 10px;
-            box-shadow: none;
-            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            background: linear-gradient(to right, #f7f8fa, #fff) padding-box, 
+                        linear-gradient(to right, #3f56e7, #6e7dff) border-box; /* Borda dupla */
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px 45px 15px 15px;
             font-size: 16px;
-            margin-bottom: 20px;
-            background-color: #f7f8fa;
-            border: 2px solid #dcdfe5;
+            width: 100%;
             transition: all 0.3s ease-in-out;
         }
 
-        /* Efeito de foco nos campos */
         .form-control:focus {
             border-color: #3f56e7;
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(63, 86, 231, 0.5);
+            box-shadow: 0 4px 10px rgba(63, 86, 231, 0.3);
             outline: none;
-            transform: scale(1.02);
         }
 
-        /* Placeholder estilizado */
         .form-control::placeholder {
-            color: #bbb;
+            color: #aaa;
             font-style: italic;
         }
 
-        /* Estilizando o botão */
+        /* Ícones internos */
+        .form-control-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #aaa;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .form-control:focus + .form-control-icon {
+            color: #3f56e7;
+        }
+
         .btn-custom {
             background-color: #3f56e7;
             color: white;
@@ -100,7 +111,6 @@
             transform: translateY(-3px);
         }
 
-        /* Link para o "Esqueci minha senha" */
         .forgot-password {
             text-align: center;
             margin-top: 20px;
@@ -115,17 +125,6 @@
         .forgot-password a:hover {
             text-decoration: underline;
         }
-
-        /* Animação no card */
-        @keyframes slideIn {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        .card {
-            animation: slideIn 0.5s ease-out;
-        }
-
     </style>
 </head>
 <body>
@@ -133,15 +132,16 @@
         <div class="card shadow-lg">
             <h4 class="card-title">Bem-vindo de volta</h4>
             <form action="/login" method="POST">
-                <div class="mb-3">
+                <div class="form-control-wrapper">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required placeholder="Digite seu email">
+                    <i class="form-control-icon bi bi-envelope-fill"></i>
                 </div>
-                <div class="mb-3">
+                <div class="form-control-wrapper">
                     <label for="senha" class="form-label">Senha</label>
                     <input type="password" class="form-control" id="senha" name="senha" required placeholder="Digite sua senha">
+                    <i class="form-control-icon bi bi-lock-fill"></i>
                 </div>
-                <!-- Botão centralizado -->
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-custom">Entrar</button>
                 </div>
@@ -152,7 +152,9 @@
         </div>
     </div>
 
-    <!-- Link para o Bootstrap JS e dependências -->
+    <!-- Link para Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap JS e dependências -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb2ZRgP9L5v7XzRO4PSYwzSbiK1Te1D/hgfR0Rz7yUbKH/c6w" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqfJqa9oZJv9p3U+qF9OFeGVJxj5mhlPaJrFhzzzz+MyJ" crossorigin="anonymous"></script>
 </body>

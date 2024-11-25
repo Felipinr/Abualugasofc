@@ -20,7 +20,6 @@
 
     <?php
     require_once 'conexao.php';  
-    require_once 'login2.php';
 
     /**
      * Função para exibir detalhes do cliente e seus aluguéis.

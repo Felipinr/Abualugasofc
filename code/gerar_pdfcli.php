@@ -2,7 +2,6 @@
 require_once 'TCPDF-main/tcpdf.php'; 
 require_once 'conexao.php';
 require_once 'core.php';
-require_once 'login2.php';
 
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 

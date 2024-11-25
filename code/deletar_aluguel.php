@@ -11,7 +11,6 @@
 
 
 require_once 'conexao.php'; 
-require_once 'login2.php';
 
 $status_message = "";
 

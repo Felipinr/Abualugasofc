@@ -1,6 +1,5 @@
 <?php
 require_once "conexao.php";
-require_once 'login2.php';
 
 /**
  * Função para editar as informações de um funcionário.

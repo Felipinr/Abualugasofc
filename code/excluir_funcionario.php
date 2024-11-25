@@ -17,7 +17,6 @@
 
 
 require_once "conexao.php";
-require_once 'login2.php';
 
 // Verifica se o parâmetro 'id' foi fornecido na URL.
 if (!isset($_GET['id'])) {
