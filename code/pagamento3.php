@@ -1,7 +1,18 @@
 <?php
 require_once 'conexao.php';
-require_once 'core.php';
 
+// Função para listar os métodos de pagamento
+function listarMetodosPagamento($conexao) {
+    $query = "SELECT id, metodo_nome FROM metodos_pagamento"; // Ajuste o nome da tabela conforme sua estrutura
+    $result = mysqli_query($conexao, $query);
+
+    $metodos = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $metodos[] = $row;
+    }
+
+    return $metodos;
+}
 
 ?>
 
@@ -31,7 +42,19 @@ require_once 'core.php';
                 <input type="date" name="data_pagamento" class="form-control" required>
             </div>
 
-             <option value='$metodo_nome'>$metodo_pagamento</option>
+            <!-- Seção de seleção do método de pagamento -->
+            <div class="mb-3">
+                <label for="metodo_pagamento" class="form-label">Método de Pagamento:</label>
+                <select name="metodo_pagamento" class="form-control" required>
+                    <?php
+                    $metodos = listarMetodosPagamento($conexao);
+                    foreach ($metodos as $metodo) {
+                        // Preenche as opções do select com os métodos de pagamento
+                        echo "<option value='{$metodo['id']}'>{$metodo['metodo_nome']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
 
             <div class="mb-3">
                 <label for="preco_por_km" class="form-label">Preço por KM:</label>
@@ -51,7 +74,7 @@ require_once 'core.php';
             <h4>Veículos</h4>
             <hr>
             <?php
-
+            // Função para listar veículos do aluguel
             $carros = listarVeiculosEmprestimo($conexao, $_GET['id_aluguel']);
 
             foreach ($carros as $carroEmprestimo) {
@@ -77,19 +100,19 @@ require_once 'core.php';
                 <input type="submit" value="Lançar Pagamento" class="btn btn-primary">
             </div>
         </form>
-         <div class="text-center mt-4">
-        <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
-        <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
-    </div>
+        <div class="text-center mt-4">
+            <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+            <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
+        </div>
     </div>
 
     <script>
         $(document).ready(function() {
             $(".kmpercorrido").on("input", function() {
-                const kmAtual = parseFloat($(this).closest(".mb-3").find(".km-atual").text());
+                const kmAtual = parseFloat($(this).parent().find(".km-atual").text());
                 const kmPercorrido = parseFloat($(this).val()) || 0;
                 const novaKm = kmAtual + kmPercorrido;
-                $(this).closest(".mb-3").find(".nova-km").text(novaKm.toFixed(2));
+                $(this).parent().find(".nova-km").text(novaKm);
             });
 
             function calcularValor() {
@@ -102,8 +125,8 @@ require_once 'core.php';
                 const precoPorKm = parseFloat($("input[name='preco_por_km']").val()) || 0;
                 const valorFinal = totalKmPercorrido * precoPorKm;
 
-                $("input[name='valor']").val(valorFinal.toFixed(2));
-                $("#kmtotaldoaluguel").text(totalKmPercorrido.toFixed(2));
+                $("input[name='valor']").val(valorFinal);
+                $("#kmtotaldoaluguel").text(totalKmPercorrido);
             }
 
             $(".kmpercorrido, input[name='preco_por_km']").on("input", calcularValor);
@@ -120,16 +143,22 @@ require_once 'core.php';
                     data_pagamento: {
                         required: true,
                     },
+                    metodo_pagamento: {
+                        required: true,
+                    }
                 },
                 messages: {
                     preco_por_km: {
-                        required: "O preço do km rodado do é obrigatório.",
+                        required: "O preço do km rodado é obrigatório.",
                         number: "O preço do km deve ser um número válido.",
                         min: "O preço não pode ser um valor negativo",
                     },
                     data_pagamento: {
                         required: "Informe a data em que o pagamento foi feito.",
                     },
+                    metodo_pagamento: {
+                        required: "Escolha um método de pagamento.",
+                    }
                 },
             });
         });

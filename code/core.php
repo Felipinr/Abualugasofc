@@ -363,3 +363,98 @@ function listarEmprestimoCliente($conexao, $id_cliente)
     mysqli_stmt_close($stmt);
     return $lista;
 }
+
+
+function listarVeiculosEmprestimo($conexao, $id_aluguel)
+{
+    $sql = "SELECT veiculos_id_veiculo, km_inicial FROM alugueis_veiculos WHERE alugueis_id_aluguel = ?";
+    $stmt = mysqli_prepare($conexao, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $id_aluguel);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $id_veiculo, $km_veiculo);
+
+    $lista = [];
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        while (mysqli_stmt_fetch($stmt)) {
+            $lista[] = [$id_veiculo, $km_veiculo];
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+    return $lista;
+}
+
+function listarVeiculoPorId($conexao, $id_veiculo)
+{
+    $sql = "SELECT 
+                id_veiculo, modelo, marca, ano, placa, cor, km_atual, airbag, num_bancos, 
+                num_portas, combustivel, cambio, ar_condicionado, direcao, som, bluetooth, 
+                gps, sensor_estacionamento, camera_re, disponivel
+            FROM veiculos 
+            WHERE id_veiculo = ?";
+    
+    $stmt = mysqli_prepare($conexao, $sql);
+    
+    if (!$stmt) {
+        die("Erro na preparação da consulta: " . mysqli_error($conexao));
+    }
+    
+    mysqli_stmt_bind_param($stmt, "i", $id_veiculo);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result(
+        $stmt, $id, $modelo, $marca, $ano, $placa, $cor, $km_atual, $airbag, $num_bancos, 
+        $num_portas, $combustivel, $cambio, $ar_condicionado, $direcao, $som, $bluetooth, 
+        $gps, $sensor_estacionamento, $camera_re, $disponivel
+    );
+    
+    $veiculo = [];
+    if (mysqli_stmt_fetch($stmt)) {
+        $veiculo = [
+            'id' => $id,
+            'modelo' => $modelo,
+            'marca' => $marca,
+            'ano' => $ano,
+            'placa' => $placa,
+            'cor' => $cor,
+            'km_atual' => $km_atual,
+            'airbag' => $airbag,
+            'num_bancos' => $num_bancos,
+            'num_portas' => $num_portas,
+            'combustivel' => $combustivel,
+            'cambio' => $cambio,
+            'ar_condicionado' => $ar_condicionado,
+            'direcao' => $direcao,
+            'som' => $som,
+            'bluetooth' => $bluetooth,
+            'gps' => $gps,
+            'sensor_estacionamento' => $sensor_estacionamento,
+            'camera_re' => $camera_re,
+            'disponivel' => $disponivel
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $veiculo;
+}
+
+function obterValorPorKm($conexao, $id_aluguel)
+{
+    $sql = "SELECT valor_km FROM alugueis WHERE id_aluguel = ?";
+    $stmt = mysqli_prepare($conexao, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id_aluguel);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $valor_km);
+    $preco = 0;
+
+    if (mysqli_stmt_fetch($stmt)) {
+        $preco = $valor_km;
+    }
+
+    mysqli_stmt_close($stmt);
+    return $preco;
+}
+
+$id_aluguel = $_GET['id_aluguel'] ?? 0; 
+$valor_km = obterValorporkm($conexao, $id_aluguel); 
