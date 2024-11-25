@@ -1,5 +1,6 @@
 <?php
 require_once 'conexao.php';
+require_once 'login2.php';
 
 if (isset($_POST['id_aluguel'], $_POST['km_inicial'], $_POST['km_final'], $_POST['valor_km'])) {
     $id_aluguel = $_POST['id_aluguel'];

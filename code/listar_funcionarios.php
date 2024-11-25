@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Funcionários</title>
-    <!-- Inclui o Bootstrap 5.3.0 para o estilo e layout -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -50,7 +49,6 @@
 </head>
 
 <body>
-    <!-- Barra de navegação -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Carromeu e Julieta</a>
@@ -64,11 +62,9 @@
         </div>
     </nav>
 
-    <!-- Contêiner da Tabela de Funcionários -->
     <div class="container mt-5 table-container">
         <h1 class="text-center mb-4">Lista de Funcionários</h1>
 
-        <!-- Tabela com os dados dos funcionários -->
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -91,14 +87,13 @@
                  * @param void
                  * @return void
                  */
-                // Requer arquivos para conexão ao banco de dados e funções do core
+            
                 require_once "conexao.php";
                 require_once "core.php";
+                require_once 'login2.php';
 
-                // Obtém a lista de funcionários da base de dados
                 $resultados = listarFuncionarios($conexao);
 
-                // Exibe cada funcionário na tabela
                 foreach ($resultados as $funcionario) {
                     $id_funcionario = $funcionario[0];
                     echo "<tr>";
@@ -116,8 +111,6 @@
                 ?>
             </tbody>
         </table>
-
-        <!-- Botão para voltar à página inicial -->
         <div class="text-center mt-4">
             <a href="index.html" class="btn btn-primary">
                 << Página inicial</a><br><br>
@@ -127,13 +120,10 @@
         <a href="gerar_pdffunc.php" class="btn btn-success">Gerar PDF</a>
     </div>
 
-
-    <!-- Rodapé -->
     <footer class="footer text-center">
         <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>
 
-    <!-- Scripts necessários para o funcionamento do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

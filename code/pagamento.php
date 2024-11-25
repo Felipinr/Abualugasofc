@@ -1,11 +1,11 @@
 <?php
 require_once 'conexao.php';
 require_once 'core.php';
+require_once 'login2.php';
 
-// Verificar se o cliente foi selecionado
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $id_cliente = $_POST['id_cliente'];
-    header("Location: pagamento2.php?id_cliente=$id_cliente"); // Redireciona para a página pagamento2.php
+    header("Location: pagamento2.php?id_cliente=$id_cliente");
     exit;
 }
 ?>

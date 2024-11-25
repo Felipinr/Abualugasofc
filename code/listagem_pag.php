@@ -34,6 +34,7 @@
  */
 
     require_once 'conexao.php';
+    require_once 'login2.php';
 
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $id_cliente = isset($_GET['id_cliente']) ? $_GET['id_cliente'] : '';

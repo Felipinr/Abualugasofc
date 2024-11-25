@@ -18,34 +18,30 @@
 
          
 require_once "conexao.php";
+require_once 'login2.php';
 
-// Verifica se o parâmetro 'id' foi fornecido na URL.
 if (!isset($_GET['id'])) {
-    // Se o ID não for fornecido, redireciona para a lista de clientes.
+
     header("Location: listar_clientes.php");
     exit();
 }
 
-// Obtém o ID do cliente a ser excluído.
 $id = $_GET['id'];
 
-// Verifica se a requisição HTTP foi do tipo POST.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Prepara a consulta SQL para remover o cliente dos aluguéis associados.
+
     $sql = "UPDATE alugueis SET id_cliente = NULL WHERE id_cliente = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    // Prepara a consulta SQL para excluir o cliente.
     $sql = "DELETE FROM clientes WHERE id_cliente = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    // Após a exclusão, redireciona para a página de listagem de clientes.
     header("Location: listar_clientes.php");
     exit();
 }
@@ -62,12 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Excluir Cliente</h1>
-        <!-- Formulário de confirmação de exclusão -->
+    
         <form method="post">
             <div class="alert alert-danger">
                 Tem certeza que deseja excluir este cliente? Esta ação não pode ser desfeita. Todos os registros relacionados terão a referência removida.
             </div>
-            <!-- Botões para confirmação ou cancelamento -->
+
             <button type="submit" class="btn btn-danger">Excluir</button>
             <a href="listar_clientes.php" class="btn btn-secondary">Cancelar</a>
         </form>

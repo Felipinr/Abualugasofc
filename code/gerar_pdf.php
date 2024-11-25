@@ -1,11 +1,10 @@
-<?php require_once 'TCPDF-main/tcpdf.php'; // Inclua o TCPDF
+<?php require_once 'TCPDF-main/tcpdf.php'; 
 require_once 'conexao.php';
 require_once 'core.php';
+require_once 'login2.php';
 
-// Criação de uma nova instância do TCPDF
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
-// Configurações do PDF
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Carromeu e Julieta');
 $pdf->SetTitle('Lista de Veículos');
@@ -19,12 +18,10 @@ $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->setFont('helvetica', '', 10);
 $pdf->AddPage();
 
-// Adiciona um título ao PDF
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 10, 'Lista de Veículos', 0, 1, 'C');
 $pdf->Ln(10);
 
-// Cabeçalho da tabela
 $pdf->SetFont('helvetica', 'B', 12);
 $html = '
 <table border="1" cellpadding="4">
@@ -42,7 +39,6 @@ $html = '
     </thead>
     <tbody>';
 
-// Busca os dados dos veículos no banco de dados
 $resultados = listarCarros($conexao);
 
 foreach ($resultados as $modelo) {
@@ -60,9 +56,7 @@ foreach ($resultados as $modelo) {
 
 $html .= '</tbody></table>';
 
-// Adiciona a tabela ao PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// Saída do PDF
 $pdf->Output('lista_veiculos.pdf', 'I');
 ?>

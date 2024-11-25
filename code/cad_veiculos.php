@@ -1,6 +1,7 @@
 <?php
 
 require_once 'conexao.php';
+require_once 'login2.php';
 
 /**
  * Função para cadastrar um novo veículo no banco de dados.

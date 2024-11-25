@@ -1,6 +1,7 @@
 <?php
 require_once 'conexao.php';
 require_once 'core.php';
+require_once 'login2.php';
 
 // Verifica se o id_cliente foi enviado via POST
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {

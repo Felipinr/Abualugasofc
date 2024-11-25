@@ -92,14 +92,12 @@
                  * @return void
                  */
 
-                // Requer arquivos para conexão ao banco de dados e funções de manipulação de dados
                 require_once "conexao.php";
                 require_once "core.php";
+                require_once 'login2.php';
 
-                // Obtém a lista de clientes da base de dados
                 $resultados = listarClientes($conexao);
 
-                // Exibe cada cliente na tabela
                 foreach ($resultados as $cliente) {
                     $id_cliente = $cliente[0];
                     echo "<tr>";
