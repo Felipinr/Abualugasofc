@@ -200,6 +200,7 @@ function salvarEmprestimo($conexao, $idfuncionario, $idcliente)
     return $id;
 }
 
+
 /**
  * Salva a relação de um veículo com um empréstimo no banco de dados.
  *
@@ -208,22 +209,7 @@ function salvarEmprestimo($conexao, $idfuncionario, $idcliente)
  * @param int $idveiculo        ID do veículo.
  * @return int                  ID da relação inserida.
  */
-function salvarVeiculoEmprestimo($conexao, $idemprestimo, $idveiculo)
-{
-    $km_inicial = kmInicialVeiculo($conexao, $idveiculo);
-    $km_final = 0;
 
-    $sql = "INSERT INTO alugueis_veiculos (idemprestimo, idveiculo, km_inicial, km_final) VALUES (?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conexao, $sql);
-
-    mysqli_stmt_bind_param($stmt, "iiss", $idemprestimo, $idveiculo, $km_inicial, $km_final);
-    mysqli_stmt_execute($stmt);
-
-    $id = mysqli_stmt_insert_id($stmt);
-    mysqli_stmt_close($stmt);
-
-    return $id;
-}
 
 /**
  * Obtém a quilometragem inicial de um veículo.
@@ -308,83 +294,6 @@ function atualiza_km_atual($conexao, $km_atual, $id_veiculo)
 }
 
 
-function listarEmprestimoCliente($conexao, $id_cliente)
-{
-
-    $sql = "
-    SELECT 
-        a.id_aluguel, 
-        a.id_funcionario, 
-        a.id_cliente, 
-        a.data_inicio, 
-        a.data_fim, 
-        v.id_veiculo, 
-        v.modelo, 
-        v.placa, 
-        v.km_atual, 
-        c.nome
-    FROM 
-        alugueis a
-    INNER JOIN 
-        clientes c ON a.id_cliente = c.id_cliente
-    INNER JOIN 
-        alugueis_veiculos av ON a.id_aluguel = av.alugueis_id_aluguel
-    INNER JOIN 
-        veiculos v ON av.veiculos_id_veiculo = v.id_veiculo
-    WHERE 
-        a.id_cliente = ?";  
-
-    $stmt = mysqli_prepare($conexao, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id_cliente);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-
-    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $data_inicio, $data_fim, $id_veiculo, $modelo, $placa, $km_atual, $nome);
-
-    $lista = [];
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        while (mysqli_stmt_fetch($stmt)) {
-
-            $lista[] = [
-                'id_aluguel' => $id_aluguel,
-                'id_funcionario' => $id_funcionario,
-                'id_cliente' => $id_cliente,
-                'data_inicio' => $data_inicio,
-                'data_fim' => $data_fim,
-                'id_veiculo' => $id_veiculo,
-                'modelo' => $modelo,
-                'placa' => $placa,
-                'km_atual' => $km_atual,
-                'nome' => $nome
-            ];
-        }
-    }
-
-    mysqli_stmt_close($stmt);
-    return $lista;
-}
-
-
-function listarVeiculosEmprestimo($conexao, $id_aluguel)
-{
-    $sql = "SELECT veiculos_id_veiculo, km_inicial FROM alugueis_veiculos WHERE alugueis_id_aluguel = ?";
-    $stmt = mysqli_prepare($conexao, $sql);
-
-    mysqli_stmt_bind_param($stmt, "i", $id_aluguel);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-    mysqli_stmt_bind_result($stmt, $id_veiculo, $km_veiculo);
-
-    $lista = [];
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        while (mysqli_stmt_fetch($stmt)) {
-            $lista[] = [$id_veiculo, $km_veiculo];
-        }
-    }
-
-    mysqli_stmt_close($stmt);
-    return $lista;
-}
 
 function listarVeiculoPorId($conexao, $id_veiculo)
 {
@@ -478,29 +387,57 @@ function listarMetodosPagamento($conexao) {
     return $metodos;
 }
 
-function listarVeiculosEmprestimos($conexao, $id_aluguel) {
-    $query = "
-        SELECT 
-            veiculos.id_veiculo,
-            veiculos.modelo,
-            veiculos.placa,
-            alugueis.km_inicial,
-            alugueis.preco_por_km
-        FROM alugueis
-        JOIN veiculos ON alugueis.id_veiculo = veiculos.id_veiculo
-        JOIN alugueis ON alugueis.id_aluguel = alugueis.id_aluguel
-        WHERE alugueis.id_aluguel = ?
-    ";
+function listarEmprestimoCliente($conexao, $id_cliente)
+{
+    $sql = "
+    SELECT 
+        a.id_aluguel, 
+        a.id_funcionario, 
+        a.id_cliente, 
+        a.data_inicio, 
+        a.data_fim, 
+        v.id_veiculo, 
+        v.modelo, 
+        v.placa, 
+        v.km_atual, 
+        c.nome
+    FROM 
+        alugueis a
+    INNER JOIN 
+        clientes c ON a.id_cliente = c.id_cliente
+    INNER JOIN 
+        alugueis_veiculos av ON a.id_aluguel = av.alugueis_id_aluguel
+    INNER JOIN 
+        veiculos v ON av.veiculos_id_veiculo = v.id_veiculo
+    WHERE 
+        a.id_cliente = ?";  
 
-    $stmt = mysqli_prepare($conexao, $query);
-    mysqli_stmt_bind_param($stmt, 'i', $id_aluguel);
+    $stmt = mysqli_prepare($conexao, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id_cliente);
     mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_store_result($stmt);
 
-    $veiculos = [];
-    while ($row = mysqli_fetch_assoc($resultado)) {
-        $veiculos[] = $row;
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $data_inicio, $data_fim, $id_veiculo, $modelo, $placa, $km_atual, $nome);
+
+    $lista = [];
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        while (mysqli_stmt_fetch($stmt)) {
+            $lista[] = [
+                'id_aluguel' => $id_aluguel,
+                'id_funcionario' => $id_funcionario,
+                'id_cliente' => $id_cliente,
+                'data_inicio' => $data_inicio,
+                'data_fim' => $data_fim,
+                'id_veiculo' => $id_veiculo,
+                'modelo' => $modelo,
+                'placa' => $placa,
+                'km_atual' => $km_atual,
+                'nome' => $nome
+            ];
+        }
     }
 
-    return $veiculos;
+    mysqli_stmt_close($stmt);
+    return $lista;
 }
+

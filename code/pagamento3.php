@@ -2,8 +2,16 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
-$id_aluguel = $_GET['alugueis_id_aluguel'];
-$veiculos = listarVeiculosEmprestimos($conexao, $id_aluguel);
+// Verifica se o id_cliente foi enviado
+if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
+    echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
+    exit;
+}
+
+$id_cliente = $_GET['id_cliente'];
+
+// Chama a função para listar os empréstimos
+$emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
 ?>
 
 <!DOCTYPE html>
@@ -12,74 +20,90 @@ $veiculos = listarVeiculosEmprestimos($conexao, $id_aluguel);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcular Pagamento</title>
-    <script src="js/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="estilos/style.css">
+    <title>Pagamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="text-center">Calcular Pagamento</h2>
-        <form id="formPagamento" action="salvar_pagamento.php" method="POST">
-            <input type="hidden" name="id_aluguel" value="<?= $id_aluguel ?>">
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Registrar Pagamento</h3>
 
-            <?php foreach ($veiculos as $veiculo): ?>
-                <div class="veiculo-item">
-                    <h4>Veículo: <?= $veiculo['modelo'] ?> (<?= $veiculo['placa'] ?>)</h4>
-                    <p><strong>Km Inicial:</strong> <?= $veiculo['km_inicial'] ?> KM</p>
-                    <p><strong>Preço por KM:</strong> R$ <?= number_format($veiculo['preco_por_km'], 2, ',', '.') ?></p>
+    <?php if (count($emprestimos) > 0): ?>
+        <form id="pagamentoForm" action="salvar_pagamento.php" method="POST">
+            <div class="mb-3">
+                <label for="metodo_pagamento" class="form-label">Método de Pagamento:</label>
+                <select class="form-select" id="metodo_pagamento" name="metodo_pagamento" required>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Cartao">Cartão</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
 
-                    <div class="mb-3">
-                        <label for="km_final_<?= $veiculo['id_veiculo'] ?>">Km Final:</label>
-                        <input type="number" name="km_final[<?= $veiculo['id_veiculo'] ?>]" class="form-control km-final" min="<?= $veiculo['km_inicial'] ?>" required>
+            <div class="mb-3">
+                <label for="data_pagamento" class="form-label">Data de Pagamento:</label>
+                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
+            </div>
+
+            <div class="mb-3">
+                <h5>Veículos:</h5>
+                <?php foreach ($emprestimos as $emprestimo): ?>
+                    <div class="mb-3 border p-3 rounded">
+                        <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
+                        <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
+                        <strong>Km Inicial:</strong> <?= $emprestimo['km_atual']; ?> <br>
+                        <strong>Valor por Km:</strong> R$ <?= number_format($emprestimo['valor_km'], 2, ',', '.'); ?> <br>
+
+                        <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
+                        <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
+                               name="km_final[<?= $emprestimo['id_aluguel']; ?>]" min="<?= $emprestimo['km_atual']; ?>"
+                               data-km-inicial="<?= $emprestimo['km_atual']; ?>"
+                               data-valor-km="<?= $emprestimo['valor_km']; ?>" required>
                     </div>
+                <?php endforeach; ?>
+            </div>
 
-                    <p><strong>Km Percorrido:</strong> <span class="km-percorrido">0.00</span> KM</p>
-                    <p><strong>Valor do Veículo:</strong> R$ <span class="valor-veiculo">0.00</span></p>
-                    <hr>
-                </div>
-            <?php endforeach; ?>
+            <div class="mb-3">
+                <button type="button" id="calcularTotal" class="btn btn-primary">Calcular Total</button>
+                <h5 class="mt-3">Total a Pagar: R$ <span id="totalValor">0.00</span></h5>
+            </div>
 
-            <h4>Total: R$ <span id="valor-total">0.00</span></h4>
-            <button type="submit" class="btn btn-primary">Salvar Pagamento</button>
+            <button type="submit" class="btn btn-success">Registrar Pagamento</button>
         </form>
+    <?php else: ?>
+        <div class="alert alert-warning" role="alert">Não há empréstimos para este cliente.</div>
+    <?php endif; ?>
+
+    <div class="text-center mt-4">
+        <a href="pagamento2.php" class="btn btn-secondary">Voltar</a>
+        <a href="index.html" class="btn btn-secondary">Início</a>
     </div>
+</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const veiculoItems = document.querySelectorAll(".veiculo-item");
+<script>
+    $(document).ready(function () {
+        $('#calcularTotal').on('click', function () {
+            let total = 0;
 
-            veiculoItems.forEach(item => {
-                const kmFinalInput = item.querySelector(".km-final");
-                const kmPercorridoSpan = item.querySelector(".km-percorrido");
-                const valorVeiculoSpan = item.querySelector(".valor-veiculo");
+            $('.km_final').each(function () {
+                const kmInicial = parseFloat($(this).data('km-inicial'));
+                const valorKm = parseFloat($(this).data('valor-km'));
+                const kmFinal = parseFloat($(this).val());
 
-                kmFinalInput.addEventListener("input", () => {
-                    const kmInicial = parseFloat(item.querySelector("p").textContent.match(/\d+/)[0]);
-                    const precoPorKm = parseFloat(item.querySelector("strong + p").textContent.replace("R$", "").replace(",", "."));
-
-                    const kmFinal = parseFloat(kmFinalInput.value) || kmInicial;
-                    const kmPercorrido = kmFinal - kmInicial;
-                    const valor = kmPercorrido * precoPorKm;
-
-                    kmPercorridoSpan.textContent = kmPercorrido.toFixed(2);
-                    valorVeiculoSpan.textContent = valor.toFixed(2);
-
-                    calcularTotal();
-                });
+                if (!isNaN(kmFinal) && kmFinal > kmInicial) {
+                    const kmRodados = kmFinal - kmInicial;
+                    total += kmRodados * valorKm;
+                }
             });
 
-            function calcularTotal() {
-                let total = 0;
-
-                document.querySelectorAll(".valor-veiculo").forEach(span => {
-                    total += parseFloat(span.textContent) || 0;
-                });
-
-                document.getElementById("valor-total").textContent = total.toFixed(2);
-            }
+            $('#totalValor').text(total.toFixed(2));
         });
-    </script>
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
