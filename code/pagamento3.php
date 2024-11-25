@@ -42,7 +42,6 @@ function listarMetodosPagamento($conexao) {
                 <input type="date" name="data_pagamento" class="form-control" required>
             </div>
 
-            <!-- Seção de seleção do método de pagamento -->
             <div class="mb-3">
                 <label for="metodo_pagamento" class="form-label">Método de Pagamento:</label>
                 <select name="metodo_pagamento" class="form-control" required>

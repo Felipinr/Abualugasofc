@@ -458,3 +458,23 @@ function obterValorPorKm($conexao, $id_aluguel)
 
 $id_aluguel = $_GET['id_aluguel'] ?? 0; 
 $valor_km = obterValorporkm($conexao, $id_aluguel); 
+
+
+
+function listarMetodosPagamento($conexao) {
+   
+    $query = "SELECT id, metodo_pagamento FROM pagamentos";  
+    
+    
+    $result = mysqli_query($conexao, $query);
+    
+   
+    $metodos = [];
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $metodos[] = $row; 
+    }
+    
+    return $metodos;
+}
+?>
