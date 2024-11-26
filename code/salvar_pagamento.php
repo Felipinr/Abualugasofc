@@ -36,11 +36,11 @@ try {
         $stmt = mysqli_prepare($conexao, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_aluguel);
         mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $veiculo_id, $valor_km, $km_inicial);
+        mysqli_stmt_bind_result($stmt, $id_veiculo, $valor_km, $km_inicial);
         mysqli_stmt_fetch($stmt);
         mysqli_stmt_close($stmt);
 
-        if (!$veiculo_id || !$valor_km || $km_final < $km_inicial) {
+        if (!$id_veiculo || !$valor_km || $km_final < $km_inicial) {
             throw new Exception("Dados inconsistentes para o aluguel ID $id_aluguel.");
         }
 
