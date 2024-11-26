@@ -396,6 +396,7 @@ function listarEmprestimoCliente($conexao, $id_cliente)
         a.id_cliente, 
         a.data_inicio, 
         a.data_fim, 
+        a.valor_km,
         v.id_veiculo, 
         v.modelo, 
         v.placa, 
@@ -417,7 +418,7 @@ function listarEmprestimoCliente($conexao, $id_cliente)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
 
-    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $data_inicio, $data_fim, $id_veiculo, $modelo, $placa, $km_atual, $nome);
+    mysqli_stmt_bind_result($stmt, $id_aluguel, $id_funcionario, $id_cliente, $data_inicio, $data_fim, $valor_km, $id_veiculo, $modelo, $placa, $km_atual, $nome);
 
     $lista = [];
     if (mysqli_stmt_num_rows($stmt) > 0) {
@@ -428,6 +429,7 @@ function listarEmprestimoCliente($conexao, $id_cliente)
                 'id_cliente' => $id_cliente,
                 'data_inicio' => $data_inicio,
                 'data_fim' => $data_fim,
+                'valor_km' => $valor_km,
                 'id_veiculo' => $id_veiculo,
                 'modelo' => $modelo,
                 'placa' => $placa,
