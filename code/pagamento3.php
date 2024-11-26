@@ -51,26 +51,30 @@ function tratarValor($valor, $default = 0) {
                 <label for="data_pagamento" class="form-label">Data de Pagamento:</label>
                 <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
             </div>
+<div class="mb-3">
+    <h5>Veículos:</h5>
+    <?php foreach ($emprestimos as $emprestimo): ?>
+        <div class="mb-3 border p-3 rounded">
+            <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
+            <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
+            <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
+            
+            <!-- Verificar se o valor_km está definido antes de tentar acessar -->
+            <strong>Valor por Km:</strong> R$ 
+            <?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 'Valor não definido'; ?> <br>
 
-            <div class="mb-3">
-                <h5>Veículos:</h5>
-                <?php foreach ($emprestimos as $emprestimo): ?>
-                    <div class="mb-3 border p-3 rounded">
-                        <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
-                        <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
-                        <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
-                        <strong>Valor por Km:</strong> R$ <?= tratarValor($emprestimo['valor_km'], 0); ?> <br>
+            <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
+            <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
+                   name="km_final[<?= $emprestimo['id_aluguel']; ?>]" 
+                   min="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                   data-km-inicial="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                   data-valor-km="<?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 0; ?>" 
+                   required>
+        </div>
+    <?php endforeach; ?>
+</div>
 
-                        <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
-                        <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
-                               name="km_final[<?= $emprestimo['id_aluguel']; ?>]" 
-                               min="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
-                               data-km-inicial="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
-                               data-valor-km="<?= tratarValor($emprestimo['valor_km'], 0); ?>" required>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
+                
             <div class="mb-3">
                 <button type="button" id="calcularTotal" class="btn btn-primary">Calcular Total</button>
                 <h5 class="mt-3">Total a Pagar: R$ <span id="totalValor">0.00</span></h5>
