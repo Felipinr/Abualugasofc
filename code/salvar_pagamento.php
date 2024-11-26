@@ -9,15 +9,15 @@ if (!isset($_POST['metodo_pagamento'], $_POST['data_pagamento'], $_POST['km_fina
 
 $metodo_pagamento = $_POST['metodo_pagamento'];
 $data_pagamento = $_POST['data_pagamento'];
-$km_finais = $_POST['km_final']; // Array com os km finais enviados
+$km_finais = $_POST['km_final']; 
 $total_pago = 0;
 
 try {
-    // Inicia uma transação
     mysqli_begin_transaction($conexao);
 
+    // Para cada veículo selecionado
     foreach ($km_finais as $id_aluguel => $km_final) {
-        // Busca os dados específicos do aluguel e do veículo
+        // Busca os dados do veículo correspondente ao aluguel
         $query = "
             SELECT 
                 av.veiculos_id_veiculo,
@@ -40,12 +40,12 @@ try {
         $result = mysqli_stmt_fetch($stmt);
         mysqli_stmt_close($stmt);
 
-        // Se não encontrou o veículo ou se algum valor é inválido
         if (!$result || !$veiculo_id || !$valor_km || $km_final < $km_inicial) {
-            throw new Exception("Dados inconsistentes para o aluguel ID $id_aluguel. Verifique se o aluguel está corretamente associado a um veículo e se o valor do km é válido.");
+            // Verificação de dados inconsistentes
+            throw new Exception("Dados inconsistentes para o aluguel ID $id_aluguel. Verifique os dados do veículo.");
         }
 
-        // Depuração: Exibir os dados recuperados
+        // Exibe os dados para depuração
         echo "<pre>";
         echo "ID do Aluguel: $id_aluguel<br>";
         echo "Veículo ID: $veiculo_id<br>";
@@ -54,12 +54,12 @@ try {
         echo "Km Final: $km_final<br>";
         echo "</pre>";
 
-        // Calcula o total do aluguel para o veículo específico
-        $km_rodados = $km_final - $km_inicial; // Diferença entre km final e km inicial
-        $subtotal = $km_rodados * $valor_km; // Cálculo do valor total
-        $total_pago += $subtotal; // Adiciona ao total pago
+        // Calcula a quilometragem rodada e o valor do pagamento
+        $km_rodados = $km_final - $km_inicial; 
+        $subtotal = $km_rodados * $valor_km; 
+        $total_pago += $subtotal;
 
-        // Atualiza o km do veículo com o valor final
+        // Atualiza a quilometragem do veículo
         $update_km_query = "UPDATE veiculos SET km_atual = ? WHERE id_veiculo = ?";
         $update_stmt = mysqli_prepare($conexao, $update_km_query);
         mysqli_stmt_bind_param($update_stmt, "ii", $km_final, $veiculo_id);
@@ -92,6 +92,7 @@ try {
             Pagamento registrado com sucesso! ID do pagamento: $id_pagamento
           </div>";
     echo "<a href='index.html' class='btn btn-primary'>Voltar ao Início</a>";
+
 } catch (Exception $e) {
     // Reverte a transação em caso de erro
     mysqli_rollback($conexao);
