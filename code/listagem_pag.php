@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes e Empréstimos</title>
 </head>
+
 <body>
     <h2>Clientes Disponíveis</h2>
 
@@ -15,23 +17,23 @@
 
     <?php
     /**
- * Esta página exibe uma lista de clientes disponíveis, permite a busca por nome, exibe detalhes do cliente selecionado,
- * seus aluguéis e permite registrar um empréstimo associando um cliente a um funcionário.
- * 
- * @param mysqli        $conexao        Conexão com o banco de dados.
- * @param string|null   $search         (opcional) String de busca para filtrar clientes pelo nome.
- * @param int|null      $id_cliente     (opcional) ID do cliente para exibir detalhes e aluguéis.
- * @param int|null      $id_funcionario (opcional) ID do funcionário para registrar o empréstimo.
- * 
- * @return void
- * 
- * Funcionalidades:
- * - Realiza a conexão com o banco de dados para consultar a lista de clientes.
- * - Exibe os resultados de busca, se o parâmetro `search` for fornecido.
- * - Exibe detalhes de um cliente, incluindo os aluguéis associados, se o parâmetro `id_cliente` for fornecido.
- * - Exibe um formulário para registrar um empréstimo, associando um cliente e um funcionário.
- * - Mensagens de erro e sucesso são exibidas para as operações realizadas.
- */
+     * Esta página exibe uma lista de clientes disponíveis, permite a busca por nome, exibe detalhes do cliente selecionado,
+     * seus aluguéis e permite registrar um empréstimo associando um cliente a um funcionário.
+     * 
+     * @param mysqli        $conexao        Conexão com o banco de dados.
+     * @param string|null   $search         (opcional) String de busca para filtrar clientes pelo nome.
+     * @param int|null      $id_cliente     (opcional) ID do cliente para exibir detalhes e aluguéis.
+     * @param int|null      $id_funcionario (opcional) ID do funcionário para registrar o empréstimo.
+     * 
+     * @return void
+     * 
+     * Funcionalidades:
+     * - Realiza a conexão com o banco de dados para consultar a lista de clientes.
+     * - Exibe os resultados de busca, se o parâmetro `search` for fornecido.
+     * - Exibe detalhes de um cliente, incluindo os aluguéis associados, se o parâmetro `id_cliente` for fornecido.
+     * - Exibe um formulário para registrar um empréstimo, associando um cliente e um funcionário.
+     * - Mensagens de erro e sucesso são exibidas para as operações realizadas.
+     */
 
     require_once 'conexao.php';
 
@@ -110,4 +112,5 @@
     mysqli_close($conexao);
     ?>
 </body>
+
 </html>
