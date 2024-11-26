@@ -86,7 +86,7 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
         <div class="text-center">
             <input type="submit" value="Selecionar Cliente" class="btn btn-primary">
             <a href="index.html">
-            <button type="button" class="btn btn-primary">Voltar</button>
+            <button type="button" class="btn btn-danger">Voltar</button>
         </a>
         </div>
     </form>

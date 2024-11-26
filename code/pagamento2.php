@@ -122,10 +122,10 @@ if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
         ?>
     </form>
     <div class="text-center mt-4">
-        <a href="pagamento3.php?id_cliente=<?php echo $id_cliente; ?>" class="btn btn-success">>>Próxima página<<</a>
+        <a href="pagamento3.php?id_cliente=<?php echo $id_cliente; ?>" class="btn btn-primary ">Próxima página</a>
     </div>
     <div class="text-center mt-4">
-        <a href="pagamento.php" class="btn btn-secondary">Voltar</a>
+        <a href="pagamento.php" class="btn btn-danger">Voltar</a>
         <a href="index.html" class="btn btn-secondary">Voltar ao início</a>
     </div>
 </div>
