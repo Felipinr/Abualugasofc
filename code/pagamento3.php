@@ -2,26 +2,6 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
-/**
- * Exibe o formulário de pagamento de aluguel de veículos.
- *
- * Este script exibe um formulário para o usuário registrar o pagamento de aluguel
- * de veículos, onde é possível selecionar o método de pagamento, informar a data
- * do pagamento e a quilometragem final dos veículos alugados. O valor total a ser
- * pago é calculado com base na diferença entre a quilometragem inicial e final,
- * considerando o valor por quilômetro rodado.
- * 
- * O script segue os seguintes passos:
- * 1. Validação do ID do cliente.
- * 2. Recuperação dos dados dos empréstimos (veículos) do cliente.
- * 3. Exibição do formulário com os veículos alugados e seus dados.
- * 4. Cálculo do valor a ser pago baseado na quilometragem final.
- * 5. Exibição do total a ser pago.
- * 
- * @param mysqli $conexao Conexão com o banco de dados.
- * @return void
- */
-
 // Verifica se o id_cliente foi enviado
 if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
@@ -78,7 +58,6 @@ function tratarValor($valor, $default = 0)
             color: white;
         }
     </style>
-
 </head>
 
 <body>
@@ -90,7 +69,6 @@ function tratarValor($valor, $default = 0)
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
         </div>
     </nav>
 
@@ -137,12 +115,15 @@ function tratarValor($valor, $default = 0)
                     <?php endforeach; ?>
                 </div>
 
+                <input type="hidden" id="valor_pagamento" name="valor_pagamento">
+                <input type="hidden" id="id_aluguel" name="id_aluguel">
+
                 <div class="mb-3">
                     <button type="button" id="calcularTotal" class="btn btn-primary">Calcular Total</button>
                     <h5 class="mt-3">Total a Pagar: R$ <span id="totalValor">0.00</span></h5>
                 </div>
 
-                <button type="submit" class="btn btn-success">Registrar Pagamento</button>
+                <button type="submit" class="btn btn-success" id="registrarPagamento">Registrar Pagamento</button>
             </form><br>
         <?php else: ?>
             <div class="alert alert-warning" role="alert">Não há empréstimos para este cliente.</div>
@@ -152,15 +133,15 @@ function tratarValor($valor, $default = 0)
 
     <script>
         $(document).ready(function() {
-            // Função para calcular o total a pagar
             $('#calcularTotal').on('click', function() {
                 let total = 0;
+                let idAluguel = null;
 
-                // Para cada campo km_final, calcula o valor a ser pago
                 $('.km_final').each(function() {
                     const kmInicial = parseFloat($(this).data('km-inicial'));
                     const valorKm = parseFloat($(this).data('valor-km'));
                     const kmFinal = parseFloat($(this).val());
+                    idAluguel = $(this).attr('id').split('_')[2];
 
                     if (!isNaN(kmFinal) && kmFinal > kmInicial) {
                         const kmRodados = kmFinal - kmInicial;
@@ -168,8 +149,9 @@ function tratarValor($valor, $default = 0)
                     }
                 });
 
-                // Atualiza o total na tela
                 $('#totalValor').text(total.toFixed(2).replace('.', ','));
+                $('#valor_pagamento').val(total.toFixed(2));
+                $('#id_aluguel').val(idAluguel);
             });
         });
     </script>
