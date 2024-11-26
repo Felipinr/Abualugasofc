@@ -22,7 +22,6 @@ require_once 'core.php';
  * @return void
  */
 
-
 // Verifica se o id_cliente foi enviado
 if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
@@ -35,13 +34,14 @@ $id_cliente = $_GET['id_cliente'];
 $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
 
 // Função para tratar valores nulos
-function tratarValor($valor, $default = 0) {
+function tratarValor($valor, $default = 0)
+{
     return isset($valor) && !is_null($valor) ? $valor : $default;
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">   
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -53,86 +53,98 @@ function tratarValor($valor, $default = 0) {
 </head>
 
 <body>
-<div class="container mt-5">
-    <h3 class="text-center mb-4">Registrar Pagamento</h3>
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Registrar Pagamento</h3>
 
-    <?php if (count($emprestimos) > 0): ?>
-        <form id="pagamentoForm" action="salvar_pagamento.php" method="POST">
-            <div class="mb-3">
-                <label for="metodo_pagamento" class="form-label">Método de Pagamento:</label>
-                <select class="form-select" id="metodo_pagamento" name="metodo_pagamento" required>
-                    <option value="Dinheiro">Dinheiro</option>
-                    <option value="Cartao">Cartão</option>
-                    <option value="Pix">Pix</option>
-                    <option value="Outro">Outro</option>
-                </select>
-            </div>
+        <?php if (count($emprestimos) > 0): ?>
+            <form id="pagamentoForm" action="salvar_pagamento.php" method="POST">
+                <div class="mb-3">
+                    <label for="metodo_pagamento" class="form-label">Método de Pagamento:</label>
+                    <select class="form-select" id="metodo_pagamento" name="metodo_pagamento" required>
+                        <option value="">Selecione...</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartao">Cartão</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label for="data_pagamento" class="form-label">Data de Pagamento:</label>
-                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
-            </div>
-<div class="mb-3">
-    <h5>Veículos:</h5>
-    <?php foreach ($emprestimos as $emprestimo): ?>
-        <div class="mb-3 border p-3 rounded">
-            <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
-            <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
-            <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
-            
-            <strong>Valor por Km:</strong> R$ 
-            <?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 'Valor não definido'; ?> <br>
+                <div class="mb-3">
+                    <label for="data_pagamento" class="form-label">Data de Pagamento:</label>
+                    <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
+                </div>
 
-            <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
-            <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
-                   name="km_final[<?= $emprestimo['id_aluguel']; ?>]" 
-                   min="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
-                   data-km-inicial="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
-                   data-valor-km="<?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 0; ?>" 
-                   required>
+                <div class="mb-3">
+                    <h5>Veículos:</h5>
+                    <?php foreach ($emprestimos as $emprestimo): ?>
+                        <div class="mb-3 border p-3 rounded">
+                            <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
+                            <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
+                            <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
+
+                            <strong>Valor por Km:</strong> R$
+                            <?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 'Valor não definido'; ?> <br>
+
+                            <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
+                            <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
+                                name="km_final[<?= $emprestimo['id_aluguel']; ?>]"
+                                min="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                                data-km-inicial="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                                data-valor-km="<?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 0; ?>"
+                                required>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" id="calcularTotal" class="btn btn-primary">Calcular Total</button>
+                    <h5 class="mt-3">Total a Pagar: R$ <span id="totalValor">0.00</span></h5>
+                </div>
+
+                <button type="submit" class="btn btn-success">Registrar Pagamento</button>
+            </form>
+        <?php else: ?>
+            <div class="alert alert-warning" role="alert">Não há empréstimos para este cliente.</div>
+        <?php endif; ?>
+
+        <div class="text-center mt-4">
+            <a href="index.html" class="btn btn-secondary">Início</a>
         </div>
-    <?php endforeach; ?>
-</div>
-
-                
-            <div class="mb-3">
-                <button type="button" id="calcularTotal" class="btn btn-primary">Calcular Total</button>
-                <h5 class="mt-3">Total a Pagar: R$ <span id="totalValor">0.00</span></h5>
-            </div>
-
-            <button type="submit" class="btn btn-success">Registrar Pagamento</button>
-        </form>
-    <?php else: ?>
-        <div class="alert alert-warning" role="alert">Não há empréstimos para este cliente.</div>
-    <?php endif; ?>
-
-    <div class="text-center mt-4">
-        <a href="index.html" class="btn btn-secondary">Início</a>
     </div>
-</div>
 
-<script>
-    $(document).ready(function () {
-        $('#calcularTotal').on('click', function () {
-            let total = 0;
+    <script>
+        $(document).ready(function() {
 
-            $('.km_final').each(function () {
-                const kmInicial = parseFloat($(this).data('km-inicial'));
-                const valorKm = parseFloat($(this).data('valor-km'));
-                const kmFinal = parseFloat($(this).val());
+            // Verificar se a data de pagamento foi informada
+            const dataPagamento = $('#data_pagamento').val();
+            if (dataPagamento == "") {
+                $('#erroMensagem').text("O campo 'Data de Pagamento' é obrigatório.").removeClass('d-none');
+                valid = false;
+            }
 
-                if (!isNaN(kmFinal) && kmFinal > kmInicial) {
-                    const kmRodados = kmFinal - kmInicial;
-                    total += kmRodados * valorKm;
-                }
+            // Função para calcular o total a pagar
+            $('#calcularTotal').on('click', function() {
+                let total = 0;
+
+                // Para cada campo km_final, calcula o valor a ser pago
+                $('.km_final').each(function() {
+                    const kmInicial = parseFloat($(this).data('km-inicial'));
+                    const valorKm = parseFloat($(this).data('valor-km'));
+                    const kmFinal = parseFloat($(this).val());
+
+                    if (!isNaN(kmFinal) && kmFinal > kmInicial) {
+                        const kmRodados = kmFinal - kmInicial;
+                        total += kmRodados * valorKm;
+                    }
+                });
+
+                // Atualiza o total na tela
+                $('#totalValor').text(total.toFixed(2).replace('.', ','));
             });
-
-            $('#totalValor').text(total.toFixed(2).replace('.', ','));
         });
-    });
-</script>
+    </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
