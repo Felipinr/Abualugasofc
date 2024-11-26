@@ -41,7 +41,7 @@ function tratarValor($valor, $default = 0) {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR">   
 
 <head>
     <meta charset="UTF-8">
@@ -80,7 +80,6 @@ function tratarValor($valor, $default = 0) {
             <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
             <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
             
-            <!-- Verificar se o valor_km está definido antes de tentar acessar -->
             <strong>Valor por Km:</strong> R$ 
             <?= isset($emprestimo['valor_km']) ? tratarValor($emprestimo['valor_km'], 0) : 'Valor não definido'; ?> <br>
 

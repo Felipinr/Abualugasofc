@@ -94,5 +94,4 @@ try {
 }
 
 mysqli_close($conexao);
-
 ?>
