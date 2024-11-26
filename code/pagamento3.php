@@ -12,6 +12,11 @@ $id_cliente = $_GET['id_cliente'];
 
 // Chama a função para listar os empréstimos
 $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
+
+// Função para tratar valores nulos
+function tratarValor($valor, $default = 0) {
+    return isset($valor) && !is_null($valor) ? $valor : $default;
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,14 +58,15 @@ $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
                     <div class="mb-3 border p-3 rounded">
                         <strong>Modelo:</strong> <?= $emprestimo['modelo']; ?> <br>
                         <strong>Placa:</strong> <?= $emprestimo['placa']; ?> <br>
-                        <strong>Km Inicial:</strong> <?= $emprestimo['km_atual']; ?> <br>
-                        <strong>Valor por Km:</strong> R$ <?= number_format($emprestimo['valor_km'], 2, ',', '.'); ?> <br>
+                        <strong>Km Inicial:</strong> <?= tratarValor($emprestimo['km_atual'], 0); ?> <br>
+                        <strong>Valor por Km:</strong> R$ <?= tratarValor($emprestimo['valor_km'], 0); ?> <br>
 
                         <label for="km_final_<?= $emprestimo['id_aluguel']; ?>" class="form-label mt-2">Km Final:</label>
                         <input type="number" class="form-control km_final" id="km_final_<?= $emprestimo['id_aluguel']; ?>"
-                               name="km_final[<?= $emprestimo['id_aluguel']; ?>]" min="<?= $emprestimo['km_atual']; ?>"
-                               data-km-inicial="<?= $emprestimo['km_atual']; ?>"
-                               data-valor-km="<?= $emprestimo['valor_km']; ?>" required>
+                               name="km_final[<?= $emprestimo['id_aluguel']; ?>]" 
+                               min="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                               data-km-inicial="<?= tratarValor($emprestimo['km_atual'], 0); ?>"
+                               data-valor-km="<?= tratarValor($emprestimo['valor_km'], 0); ?>" required>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -77,7 +83,6 @@ $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
     <?php endif; ?>
 
     <div class="text-center mt-4">
-        <a href="pagamento2.php" class="btn btn-secondary">Voltar</a>
         <a href="index.html" class="btn btn-secondary">Início</a>
     </div>
 </div>
@@ -98,7 +103,7 @@ $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
                 }
             });
 
-            $('#totalValor').text(total.toFixed(2));
+            $('#totalValor').text(total.toFixed(2).replace('.', ','));
         });
     });
 </script>
