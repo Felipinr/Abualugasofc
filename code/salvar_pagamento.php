@@ -16,12 +16,13 @@ $total_pago = 0;
 mysqli_begin_transaction($conexao);
 
 foreach ($km_finais as $id_veiculo => $km_final) {
-    // Consulta para verificar a existência do veículo e do aluguel associado
+    // Consulta para obter dados do veículo e o km_final associado ao aluguel
     $query = "
         SELECT 
             v.km_atual,
             a.valor_km,
-            av.alugueis_id_aluguel
+            av.alugueis_id_aluguel,
+            av.km_final -- Aqui estamos buscando o km_final da tabela alugueis_veiculos
         FROM 
             veiculos v
         INNER JOIN 
@@ -33,15 +34,9 @@ foreach ($km_finais as $id_veiculo => $km_final) {
     ";
 
     $stmt = mysqli_prepare($conexao, $query);
-    if ($stmt === false) {
-        echo "<div class='alert alert-danger' role='alert'>Erro na preparação da consulta.</div>";
-        mysqli_rollback($conexao);
-        exit;
-    }
-
     mysqli_stmt_bind_param($stmt, "i", $id_veiculo);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $km_inicial, $valor_km, $id_aluguel);
+    mysqli_stmt_bind_result($stmt, $km_inicial, $valor_km, $id_aluguel, $km_final_veiculo);
 
     if (mysqli_stmt_fetch($stmt)) {
         // Valida o Km final
@@ -60,28 +55,16 @@ foreach ($km_finais as $id_veiculo => $km_final) {
         $subtotal = $km_rodados * $valor_km;
         $total_pago += $subtotal;
 
-        // Atualiza a quilometragem do veículo
+        // Atualiza a quilometragem do veículo com o km_final da tabela alugueis_veiculos
         $update_km_query = "UPDATE veiculos SET km_atual = ? WHERE id_veiculo = ?";
         $update_stmt = mysqli_prepare($conexao, $update_km_query);
-        if ($update_stmt === false) {
-            echo "<div class='alert alert-danger' role='alert'>Erro na atualização da quilometragem.</div>";
-            mysqli_rollback($conexao);
-            exit;
-        }
-
-        mysqli_stmt_bind_param($update_stmt, "ii", $km_final, $id_veiculo);
+        mysqli_stmt_bind_param($update_stmt, "ii", $km_final, $id_veiculo); // Atualiza com o km_final recebido
         mysqli_stmt_execute($update_stmt);
         mysqli_stmt_close($update_stmt);
 
         // Atualiza a data de finalização do aluguel
         $update_aluguel_query = "UPDATE alugueis SET data_fim = ? WHERE id_aluguel = ?";
         $update_aluguel_stmt = mysqli_prepare($conexao, $update_aluguel_query);
-        if ($update_aluguel_stmt === false) {
-            echo "<div class='alert alert-danger' role='alert'>Erro na atualização da data de finalização do aluguel.</div>";
-            mysqli_rollback($conexao);
-            exit;
-        }
-
         mysqli_stmt_bind_param($update_aluguel_stmt, "si", $data_pagamento, $id_aluguel);
         mysqli_stmt_execute($update_aluguel_stmt);
         mysqli_stmt_close($update_aluguel_stmt);
@@ -103,12 +86,6 @@ $insert_pagamento_query = "
     VALUES (?, ?, ?)
 ";
 $insert_stmt = mysqli_prepare($conexao, $insert_pagamento_query);
-if ($insert_stmt === false) {
-    echo "<div class='alert alert-danger' role='alert'>Erro na inserção do pagamento.</div>";
-    mysqli_rollback($conexao);
-    exit;
-}
-
 mysqli_stmt_bind_param($insert_stmt, "sds", $metodo_pagamento, $total_pago, $data_pagamento);
 mysqli_stmt_execute($insert_stmt);
 $id_pagamento = mysqli_insert_id($conexao);
