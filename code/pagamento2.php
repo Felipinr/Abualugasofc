@@ -2,6 +2,26 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
+/**
+ * Exibe os empréstimos de um cliente para seleção de pagamento.
+ *
+ * Este script é responsável por exibir os empréstimos de um cliente, permitindo
+ * que o usuário selecione o empréstimo para registrar o pagamento. O script
+ * valida se o ID do cliente foi enviado e recupera os empréstimos associados a
+ * esse cliente no banco de dados.
+ * 
+ * O script segue os seguintes passos:
+ * 1. Validação do ID do cliente enviado via POST.
+ * 2. Recuperação dos empréstimos relacionados ao cliente a partir do banco de dados.
+ * 3. Exibição dos empréstimos com os dados dos veículos (modelo e placa).
+ * 4. Exibição de um formulário para a seleção de pagamento.
+ * 5. Direcionamento para a próxima página de pagamento.
+ * 6. Exibição de alertas caso o cliente não tenha empréstimos.
+ *
+ * @param mysqli $conexao Conexão com o banco de dados.
+ * @return void
+ */
+
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $id_cliente = $_POST['id_cliente'];
     $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);

@@ -2,6 +2,27 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
+/**
+ * Exibe o formulário de pagamento de aluguel de veículos.
+ *
+ * Este script exibe um formulário para o usuário registrar o pagamento de aluguel
+ * de veículos, onde é possível selecionar o método de pagamento, informar a data
+ * do pagamento e a quilometragem final dos veículos alugados. O valor total a ser
+ * pago é calculado com base na diferença entre a quilometragem inicial e final,
+ * considerando o valor por quilômetro rodado.
+ * 
+ * O script segue os seguintes passos:
+ * 1. Validação do ID do cliente.
+ * 2. Recuperação dos dados dos empréstimos (veículos) do cliente.
+ * 3. Exibição do formulário com os veículos alugados e seus dados.
+ * 4. Cálculo do valor a ser pago baseado na quilometragem final.
+ * 5. Exibição do total a ser pago.
+ * 
+ * @param mysqli $conexao Conexão com o banco de dados.
+ * @return void
+ */
+
+
 // Verifica se o id_cliente foi enviado
 if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
