@@ -86,7 +86,6 @@
                  * @return string               Disponibilidade ou data de aluguel do veículo.
                  */
                 function ultimaDataAluguel($conexao, $id_veiculo) {
-                    // Consulta para obter o último aluguel e verificar se ainda está em andamento
                     $sql = "SELECT a.data_inicio, a.data_fim
                             FROM alugueis a
                             JOIN alugueis_veiculos av ON a.id_aluguel = av.alugueis_id_aluguel
@@ -102,16 +101,15 @@
                     if ($result->num_rows > 0) {
                         $aluguel = $result->fetch_assoc();
                         $data_fim = $aluguel['data_fim'];
-                        $data_atual = date('Y-m-d'); // Data atual no formato Y-m-d
+                        $data_atual = date('Y-m-d'); 
                 
-                        // Verifica se o veículo está alugado no momento
                         if ($data_fim >= $data_atual) {
                             return "Indisponível (alugado até " . $data_fim . ")";
                         } else {
                             return "Disponível";
                         }
                     } else {
-                        return "Disponível";  // Caso o veículo nunca tenha sido alugado
+                        return "Disponível"; 
                     }
                 }
 
@@ -120,19 +118,18 @@
                 foreach ($resultados as $modelo) {
                     $id_veiculo = $modelo[0];
 
-                    // Pegar a última data de aluguel (se houver)
                     $ultimaData = ultimaDataAluguel($conexao, $id_veiculo);
                     $dataAluguel = $ultimaData ? $ultimaData : 'Disponivel';
 
                     echo "<tr>";
                     echo "<td>$id_veiculo</td>";
-                    echo "<td>" . htmlspecialchars($modelo[1]) . "</td>";  // Modelo
-                    echo "<td>" . htmlspecialchars($modelo[2]) . "</td>";  // Marca
-                    echo "<td>" . htmlspecialchars($modelo[3]) . "</td>";  // Ano
-                    echo "<td>" . htmlspecialchars($modelo[4]) . "</td>";  // Placa
-                    echo "<td>" . htmlspecialchars($modelo[5]) . "</td>";  // Cor
-                    echo "<td>" . htmlspecialchars($modelo[6]) . "</td>";  // Km atual
-                    echo "<td>$dataAluguel</td>";  // Última data de aluguel
+                    echo "<td>" . htmlspecialchars($modelo[1]) . "</td>"; 
+                    echo "<td>" . htmlspecialchars($modelo[2]) . "</td>";  
+                    echo "<td>" . htmlspecialchars($modelo[3]) . "</td>";  
+                    echo "<td>" . htmlspecialchars($modelo[4]) . "</td>";  
+                    echo "<td>" . htmlspecialchars($modelo[5]) . "</td>";  
+                    echo "<td>" . htmlspecialchars($modelo[6]) . "</td>";  
+                    echo "<td>$dataAluguel</td>"; 
                     echo "<td>
                             <a href='editar.php?id=$id_veiculo' class='btn btn-warning btn-sm'>Editar</a>
                             <a href='excluir.php?id=$id_veiculo' class='btn btn-danger btn-sm'>Excluir</a>
@@ -155,7 +152,6 @@
     <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>
 
-    <!-- Incluindo o Bootstrap JS e dependências via CDN -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

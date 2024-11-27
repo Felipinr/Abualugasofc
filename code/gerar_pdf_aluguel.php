@@ -8,7 +8,6 @@ if (!isset($_GET['id_aluguel'])) {
 
 $id_aluguel = intval($_GET['id_aluguel']);
 
-// Consulta para buscar os dados do aluguel
 $sql = "
     SELECT 
         a.id_aluguel, 
@@ -36,7 +35,6 @@ if (!$id_aluguel) {
     die('Aluguel não encontrado.');
 }
 
-// Criar o PDF
 $pdf = new TCPDF();
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Sistema de Aluguel');
@@ -44,11 +42,9 @@ $pdf->SetTitle('Detalhes do Aluguel');
 $pdf->SetMargins(15, 15, 15);
 $pdf->AddPage();
 
-// Título
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 10, 'Detalhes do Aluguel', 0, 1, 'C');
 
-// Conteúdo
 $pdf->SetFont('helvetica', '', 12);
 $html = "
     <h2>Informações do Aluguel</h2>
@@ -61,6 +57,5 @@ $html = "
 ";
 $pdf->writeHTML($html);
 
-// Fechar e enviar o PDF
 $pdf->Output('detalhes_aluguel.pdf', 'I');
 ?>

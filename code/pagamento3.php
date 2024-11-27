@@ -2,7 +2,6 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
-// Verifica se o id_cliente foi enviado
 if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
     exit;
@@ -10,10 +9,8 @@ if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
 
 $id_cliente = $_GET['id_cliente'];
 
-// Chama a função para listar os empréstimos
 $emprestimos = listarEmprestimoCliente($conexao, $id_cliente);
 
-// Função para tratar valores nulos
 function tratarValor($valor, $default = 0)
 {
     return isset($valor) && !is_null($valor) ? $valor : $default;
@@ -157,7 +154,6 @@ function tratarValor($valor, $default = 0)
             });
         });
         $(document).ready(function() {
-    // Inicialmente desativa o botão de registrar pagamento
     $('#registrarPagamento').prop('disabled', true);
 
     $('#calcularTotal').on('click', function() {
@@ -181,14 +177,12 @@ function tratarValor($valor, $default = 0)
             $('#valor_pagamento').val(total.toFixed(2));
             $('#id_aluguel').val(idAluguel);
 
-            // Habilita o botão de registrar pagamento após o cálculo
             $('#registrarPagamento').prop('disabled', false);
         } else {
             alert('Verifique os valores inseridos. O cálculo não pode ser concluído.');
         }
     });
 
-    // Desabilita novamente se valores mudarem após o cálculo
     $('.km_final').on('input', function() {
         $('#registrarPagamento').prop('disabled', true);
     });
@@ -196,7 +190,6 @@ function tratarValor($valor, $default = 0)
 
     </script>
 
-    <!-- Footer -->
     <footer class="footer text-center">
         <p>© 2024 Carromeu e Julieta - Todos os direitos reservados</p>
     </footer>

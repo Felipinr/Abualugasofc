@@ -103,7 +103,6 @@
             color: white;
         }
 
-        /* Estilo para mensagens de erro */
         #data_inicio-error,
         #data_fim-error,
         #valor_km-error {
@@ -112,14 +111,12 @@
             left: 0;
             width: 100%;
             background-color: rgba(255, 0, 0, 0.8);
-            /* Cor de fundo vermelha com opacidade */
             color: white;
             font-size: 16px;
             padding: 10px;
             text-align: center;
             font-weight: bold;
             z-index: 1000;
-            /* Garante que a mensagem fique acima dos outros elementos */
         }
     </style>
 </head>
@@ -168,13 +165,11 @@
 
     <script>
         $(document).ready(function() {
-            // Método personalizado para verificar se a data final é após a data inicial
             $.validator.addMethod("afterStartDate", function(value, element) {
                 var startDate = $("#data_inicio").val();
                 return value && startDate && new Date(value) > new Date(startDate);
             }, "A data de entrega deve ser após a data de início.");
 
-            // Validação do formulário
             $("#form").validate({
                 rules: {
                     data_inicio: {

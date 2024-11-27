@@ -2,12 +2,11 @@
 require_once 'conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtém os dados do formulário
     $id_aluguel = $_POST['id_aluguel'] ?? null;
     $data_pagamento = $_POST['data_pagamento'] ?? null;
     $valor_pagamento = $_POST['valor_pagamento'] ?? null;
     $metodo_pagamento = $_POST['metodo_pagamento'] ?? null;
-    $km_final = $_POST['km_final'] ?? null; // Quilometragem final fornecida no formulário
+    $km_final = $_POST['km_final'] ?? null;
 
    
     if ($id_aluguel && $data_pagamento && $valor_pagamento && $metodo_pagamento && $km_final) {
@@ -34,20 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
 
-            // aqui ele ao inves de atualizar o km_atual na tabela veiculos, ele ta colocando esse km_atual como 1
-            $stmt = $conexao->prepare("
-                UPDATE veiculos 
-                SET km_atual = ? 
-                WHERE id_veiculo = ?
-            ");
-            foreach ($veiculos as $veiculo) {
-                $id_veiculo = $veiculo['veiculos_id_veiculo'];
-                $stmt->bind_param('di', $km_final, $id_veiculo);
-                $stmt->execute();
-            }
-            $stmt->close();
 
-            $conexao->commit();
 
              $stmt = $conexao->prepare("
              UPDATE veiculos 
@@ -64,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             echo "<div class='alert alert-success' role='alert'>
-                Pagamento registrado com sucesso e quilometragem atualizada!
+                Pagamento registrado com sucesso!
             </div>";
 
             echo "<form action='deletar_aluguel.php' method='POST'>

@@ -17,10 +17,8 @@ require_once 'core.php';
  * @return void
  */
 
-// Cria uma nova instância do objeto TCPDF
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
-// Configurações do PDF
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Carromeu e Julieta');
 $pdf->SetTitle('Lista de Funcionários');
@@ -33,15 +31,12 @@ $pdf->SetFooterMargin(10);
 $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->setFont('helvetica', '', 10);
 
-// Adiciona uma página ao documento PDF
 $pdf->AddPage();
 
-// Título da lista de funcionários
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 10, 'Lista de Funcionários', 0, 1, 'C');
 $pdf->Ln(10);
 
-// Define o estilo da tabela de dados
 $pdf->SetFont('helvetica', 'B', 12);
 $html = '
 <table border="1" cellpadding="4">
@@ -56,10 +51,8 @@ $html = '
     </thead>
     <tbody>';
 
-// Recupera os dados dos funcionários da função listarFuncionarios
 $resultados = listarFuncionarios($conexao);
 
-// Preenche a tabela com os dados dos funcionários
 foreach ($resultados as $funcionario) {
     $html .= '<tr>
         <td>' . htmlspecialchars($funcionario[0]) . '</td>
@@ -72,9 +65,7 @@ foreach ($resultados as $funcionario) {
 
 $html .= '</tbody></table>';
 
-// Escreve o HTML no documento PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// Exibe o PDF gerado
 $pdf->Output('lista_funcionarios.pdf', 'I');
 ?>

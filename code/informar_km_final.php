@@ -12,7 +12,6 @@ require_once 'conexao.php';
 if (isset($_POST['aluguel_selecionado'])) {
     $id_aluguel = $_POST['aluguel_selecionado'];
 
-    // Consulta para obter as informações do aluguel selecionado
     $sql_aluguel = "
         SELECT av.km_inicial, a.valor_km, v.modelo AS modelo_veiculo
         FROM alugueis_veiculos av

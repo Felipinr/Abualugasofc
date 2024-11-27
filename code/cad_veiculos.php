@@ -47,14 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $camera_re = isset($_POST['camera_re']) ? 1 : 0;
     $disponivel = isset($_POST['disponivel']) ? 1 : 0;
 
-    // Comando SQL para inserir os dados do veículo na tabela "veiculos"
     $sql = "INSERT INTO veiculos (modelo, marca, ano, placa, cor, km_atual, airbag, num_bancos, num_portas, combustivel, cambio, ar_condicionado, direcao, som, bluetooth, gps, sensor_estacionamento, camera_re, disponivel)
             VALUES ('$modelo', '$marca', '$ano', '$placa', '$cor', '$km_atual', '$airbag', '$num_bancos', '$num_portas', '$combustivel', '$cambio', '$ar_condicionado', '$direcao', '$som', '$bluetooth', '$gps', '$sensor_estacionamento', '$camera_re', '$disponivel')";
 
-    // Executando a query
     mysqli_query($conexao, $sql);
 
-    // Redirecionando após a execução bem-sucedida
     header("Location: cadastrocerto.html");
 }
 ?>

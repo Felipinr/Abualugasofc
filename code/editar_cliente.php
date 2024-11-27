@@ -19,20 +19,16 @@ require_once "conexao.php";
  * @return void
  */
 function editarCliente($conexao, $id, $nome, $cpf_cnpj, $endereco, $telefone, $email, $carteira_motorista, $validade_carteira) {
-    // Prepara a consulta SQL para atualizar os dados do cliente.
     $sql = "UPDATE clientes SET nome = ?, cpf_cnpj = ?, endereco = ?, telefone = ?, email = ?, carteira_motorista = ?, validade_carteira = ? WHERE id_cliente = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     
-    // Verifica se a preparação da consulta foi bem-sucedida.
     if (!$stmt) {
         die('Erro na preparação da consulta: ' . mysqli_error($conexao));
     }
     
-    // Liga os parâmetros e executa a consulta.
     mysqli_stmt_bind_param($stmt, "sssssssi", $nome, $cpf_cnpj, $endereco, $telefone, $email, $carteira_motorista, $validade_carteira, $id);
     mysqli_stmt_execute($stmt);
     
-    // Fecha o statement.
     mysqli_stmt_close($stmt);
 }
 
@@ -46,33 +42,27 @@ function editarCliente($conexao, $id, $nome, $cpf_cnpj, $endereco, $telefone, $e
  * @return array|false      Retorna um array com os dados do cliente ou false em caso de erro.
  */
 function carregarCliente($conexao, $id) {
-    // Prepara a consulta SQL para obter os dados do cliente.
     $sql = "SELECT * FROM clientes WHERE id_cliente = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     
-    // Verifica se a preparação da consulta foi bem-sucedida.
     if (!$stmt) {
         die('Erro na preparação da consulta: ' . mysqli_error($conexao));
     }
     
-    // Liga o parâmetro e executa a consulta.
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     
-    // Faz o fetch dos dados do cliente.
     $result = mysqli_stmt_get_result($stmt);
     
-    // Verifica se foi encontrado algum cliente com o ID fornecido.
     if ($row = mysqli_fetch_assoc($result)) {
         mysqli_stmt_close($stmt);
-        return $row; // Retorna os dados do cliente.
+        return $row; 
     } else {
         mysqli_stmt_close($stmt);
-        return false; // Retorna false caso não encontre o cliente.
+        return false; 
     }
 }
 
-// Verifica se o ID foi passado na URL para edição.
 if (!isset($_GET['id'])) {
     header("Location: listar_clientes.php");
     exit();
@@ -80,7 +70,6 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// Processa o formulário de edição.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $cpf_cnpj = $_POST['cpf_cnpj'];
@@ -90,23 +79,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $carteira_motorista = $_POST['carteira_motorista'];
     $validade_carteira = $_POST['validade_carteira'];
 
-    // Chama a função para editar o cliente.
     editarCliente($conexao, $id, $nome, $cpf_cnpj, $endereco, $telefone, $email, $carteira_motorista, $validade_carteira);
 
-    // Redireciona de volta para a lista de clientes após a edição.
     header("Location: listar_clientes.php");
     exit();
 } else {
-    // Carrega os dados do cliente para preencher o formulário de edição.
     $cliente = carregarCliente($conexao, $id);
     
-    // Se o cliente não for encontrado, redireciona para a lista de clientes.
     if (!$cliente) {
         header("Location: listar_clientes.php");
         exit();
     }
 
-    // Extrai os dados do cliente para preencher os campos do formulário.
     $nome = $cliente['nome'];
     $cpf_cnpj = $cliente['cpf_cnpj'];
     $endereco = $cliente['endereco'];

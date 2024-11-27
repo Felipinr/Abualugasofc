@@ -19,11 +19,9 @@ require_once 'core.php';
  */
 
 
-// Cria uma nova instância do objeto TCPDF
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 
-// Configurações do PDF
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Carromeu e Julieta');
 $pdf->SetTitle('Lista de Veículos');
@@ -36,15 +34,12 @@ $pdf->SetFooterMargin(10);
 $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->setFont('helvetica', '', 10);
 
-// Adiciona uma página ao documento PDF
 $pdf->AddPage();
 
-// Título da lista de veículos
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell(0, 10, 'Lista de Veículos', 0, 1, 'C');
 $pdf->Ln(10);
 
-// Define o estilo da tabela de dados
 $pdf->SetFont('helvetica', 'B', 12);
 $html = '
 <table border="1" cellpadding="4">
@@ -62,10 +57,8 @@ $html = '
     </thead>
     <tbody>';
 
-// Recupera os dados dos veículos da função listarCarros
 $resultados = listarCarros($conexao);
 
-// Preenche a tabela com os dados dos veículos
 foreach ($resultados as $modelo) {
     $html .= '<tr>
         <td>' . htmlspecialchars($modelo[0]) . '</td>
@@ -81,8 +74,6 @@ foreach ($resultados as $modelo) {
 
 $html .= '</tbody></table>';
 
-// Escreve o HTML no documento PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// Exibe o PDF gerado
 $pdf->Output('lista_veiculos.pdf', 'I');

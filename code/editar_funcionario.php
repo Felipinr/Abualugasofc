@@ -16,20 +16,16 @@ require_once "conexao.php";
  * @return void
  */
 function editarFuncionario($conexao, $id, $nome, $cpf, $telefone, $email) {
-    // Prepara a consulta SQL para atualizar os dados do funcionário.
     $sql = "UPDATE funcionarios SET nome = ?, cpf = ?, telefone = ?, email = ? WHERE id_funcionario = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     
-    // Verifica se a preparação da consulta foi bem-sucedida.
     if (!$stmt) {
         die('Erro na preparação da consulta: ' . mysqli_error($conexao));
     }
     
-    // Liga os parâmetros e executa a consulta.
     mysqli_stmt_bind_param($stmt, "ssssi", $nome, $cpf, $telefone, $email, $id);
     mysqli_stmt_execute($stmt);
     
-    // Fecha o statement.
     mysqli_stmt_close($stmt);
 }
 
@@ -43,33 +39,27 @@ function editarFuncionario($conexao, $id, $nome, $cpf, $telefone, $email) {
  * @return array|false      Retorna um array com os dados do funcionário ou false em caso de erro.
  */
 function carregarFuncionario($conexao, $id) {
-    // Prepara a consulta SQL para obter os dados do funcionário.
     $sql = "SELECT * FROM funcionarios WHERE id_funcionario = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     
-    // Verifica se a preparação da consulta foi bem-sucedida.
     if (!$stmt) {
         die('Erro na preparação da consulta: ' . mysqli_error($conexao));
     }
     
-    // Liga o parâmetro e executa a consulta.
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     
-    // Faz o fetch dos dados do funcionário.
     $result = mysqli_stmt_get_result($stmt);
     
-    // Verifica se foi encontrado algum funcionário com o ID fornecido.
     if ($row = mysqli_fetch_assoc($result)) {
         mysqli_stmt_close($stmt);
-        return $row; // Retorna os dados do funcionário.
+        return $row; 
     } else {
         mysqli_stmt_close($stmt);
-        return false; // Retorna false caso não encontre o funcionário.
+        return false;
     }
 }
 
-// Verifica se o ID foi passado na URL para edição.
 if (!isset($_GET['id'])) {
     header("Location: listar_funcionarios.php");
     exit();
@@ -77,30 +67,24 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// Processa o formulário de edição.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $cpf = $_POST['cpf'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
 
-    // Chama a função para editar o funcionário.
     editarFuncionario($conexao, $id, $nome, $cpf, $telefone, $email);
 
-    // Redireciona de volta para a lista de funcionários após a edição.
     header("Location: listar_funcionarios.php");
     exit();
 } else {
-    // Carrega os dados do funcionário para preencher o formulário de edição.
     $funcionario = carregarFuncionario($conexao, $id);
     
-    // Se o funcionário não for encontrado, redireciona para a lista de funcionários.
     if (!$funcionario) {
         header("Location: listar_funcionarios.php");
         exit();
     }
 
-    // Extrai os dados do funcionário para preencher os campos do formulário.
     $nome = $funcionario['nome'];
     $cpf = $funcionario['cpf'];
     $telefone = $funcionario['telefone'];
