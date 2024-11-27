@@ -7,13 +7,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_pagamento = $_POST['data_pagamento'] ?? null;
     $valor_pagamento = $_POST['valor_pagamento'] ?? null;
     $metodo_pagamento = $_POST['metodo_pagamento'] ?? null;
+    $km_final = $_POST['km_final'] ?? null; // Quilometragem final fornecida no formulário
 
-    if ($id_aluguel && $data_pagamento && $valor_pagamento && $metodo_pagamento) {
-        // Inicia uma transação
+   
+    if ($id_aluguel && $data_pagamento && $valor_pagamento && $metodo_pagamento && $km_final) {
         $conexao->begin_transaction();
 
         try {
-            // Insere o pagamento na tabela 'pagamentos'
             $stmt = $conexao->prepare("
                 INSERT INTO pagamentos (id_aluguel, data_pagamento, valor_pagamento, metodo_pagamento) 
                 VALUES (?, ?, ?, ?)
@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $stmt->close();
 
-            // Seleciona os IDs dos veículos associados ao aluguel
             $stmt = $conexao->prepare("
                 SELECT veiculos_id_veiculo 
                 FROM alugueis_veiculos 
@@ -35,57 +34,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
 
-            // Atualiza a quilometragem e disponibilidade de cada veículo
+            // aqui ele ao inves de atualizar o km_atual na tabela veiculos, ele ta colocando esse km_atual como 1
             $stmt = $conexao->prepare("
                 UPDATE veiculos 
-                SET km_atual = km_atual + ?, disponivel = 1 
-                WHERE id_veiculo = ?
-            ");
-
-            foreach ($veiculos_kms as $veiculo) {
-                // Extrai os dados de cada veículo
-                $id_veiculo = $veiculo['id_veiculo'];
-                $km_inicial = (float)$veiculo['km_inicial'];
-                $km_final = (float)$veiculo['km_final'];
-
-                // Calcula o km percorrido
-                $km_percorrido = $km_final - $km_inicial;
-
-                // Atualiza a tabela 'veiculos'
-                $stmt->bind_param('di', $km_percorrido, $id_veiculo);
-                $stmt->execute();
-            }
-
-            $stmt->close();
-
-            // Confirma a transação
-            $conexao->commit();
-
-            // Atualiza a disponibilidade de cada veículo para '1' (disponível)
-            $stmt = $conexao->prepare("
-                UPDATE veiculos 
-                SET disponivel = 1 
+                SET km_atual = ? 
                 WHERE id_veiculo = ?
             ");
             foreach ($veiculos as $veiculo) {
-                $stmt->bind_param('i', $veiculo['veiculos_id_veiculo']);
+                $id_veiculo = $veiculo['veiculos_id_veiculo'];
+                $stmt->bind_param('di', $km_final, $id_veiculo);
                 $stmt->execute();
             }
             $stmt->close();
 
-            // Confirma a transação
             $conexao->commit();
 
+             $stmt = $conexao->prepare("
+             UPDATE veiculos 
+             SET disponivel = 1 
+             WHERE id_veiculo = ?
+         ");
+         foreach ($veiculos as $veiculo) {
+             $stmt->bind_param('i', $veiculo['veiculos_id_veiculo']);
+             $stmt->execute();
+         }
+         $stmt->close();
+
+         $conexao->commit();
+
+
             echo "<div class='alert alert-success' role='alert'>
-                Pagamento registrado com sucesso e veículos disponíveis para aluguel novamente!
+                Pagamento registrado com sucesso e quilometragem atualizada!
             </div>";
-            
+
             echo "<form action='deletar_aluguel.php' method='POST'>
             <input type='hidden' name='id_aluguel' value='$id_aluguel'>
             <button type='submit' name='excluir' class='btn btn-danger'>Clique aqui para finalizar o aluguel</button>
           </form>";
         } catch (Exception $e) {
-            // Reverte a transação em caso de erro
             $conexao->rollback();
             echo "<div class='alert alert-danger' role='alert'>
                 Erro ao registrar o pagamento: " . $e->getMessage() . "
@@ -101,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Requisição inválida.
     </div>";
 }
-// Obtém os veículos associados ao aluguel
+
 $stmt = $conexao->prepare("
     SELECT veiculos_id_veiculo, km_inicial
     FROM alugueis_veiculos 
@@ -112,5 +98,4 @@ $stmt->execute();
 $result = $stmt->get_result();
 $veiculos = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
-
 ?>

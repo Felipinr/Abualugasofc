@@ -1,40 +1,6 @@
 <?php
 require_once 'conexao.php';
-//require_once 'tcpdf/tcpdf.php';
 
-// Recebe os dados do formulário
-// $id_funcionario = $_POST['id_funcionario'];
-// $id_cliente = $_POST['id_cliente'];
-// $veiculos = explode(',', $_POST['veiculos']); // Transforma a string em array
-
-// $data_inicio = $_POST['data_inicio'];
-// $data_fim = $_POST['data_fim'];
-// $valor_km = $_POST['valor_km'];
-
-// // Aqui você pode adicionar o código para armazenar as informações no banco de dados (caso necessário)
-
-
-// // Gerar o PDF com os dados recebidos
-// $pdf = new TCPDF();
-// $pdf->AddPage();
-// $pdf->SetFont('helvetica', '', 12);
-
-// $pdf->Cell(0, 10, 'Detalhes do Aluguel', 0, 1, 'C');
-// $pdf->Ln(5);
-// $pdf->Cell(40, 10, 'ID Funcionario:', 0, 0);
-// $pdf->Cell(0, 10, $id_funcionario, 0, 1);
-// $pdf->Cell(40, 10, 'ID Cliente:', 0, 0);
-// $pdf->Cell(0, 10, $id_cliente, 0, 1);
-// $pdf->Cell(40, 10, 'Veículos Alugados:', 0, 0);
-// $pdf->Cell(0, 10, implode(', ', $veiculos), 0, 1);
-// $pdf->Cell(40, 10, 'Data de Início:', 0, 0);
-// $pdf->Cell(0, 10, $data_inicio, 0, 1);
-// $pdf->Cell(40, 10, 'Data de Entrega:', 0, 0);
-// $pdf->Cell(0, 10, $data_fim, 0, 1);
-// $pdf->Cell(40, 10, 'Valor do KM Rodado:', 0, 0);
-// $pdf->Cell(0, 10, 'R$ ' . number_format($valor_km, 2, ',', '.'), 0, 1);
-
-// $pdf->Output('detalhes_aluguel.pdf', 'I');
 
 /**
  * Obtém a quilometragem inicial de um veículo.
@@ -190,6 +156,7 @@ echo "
     <div class='message-box'>
         <h1>Aluguel realizado com sucesso!</h1>
         <a href='index.html' class='button'>Voltar à página principal</a>
+                <a href='gerar_pdf_aluguel.php?id_aluguel={$id_aluguel}' class='button'>Gerar PDF</a>
     </div>
 
 </body>
