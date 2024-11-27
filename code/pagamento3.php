@@ -187,7 +187,19 @@ function tratarValor($valor, $default = 0)
         $('#registrarPagamento').prop('disabled', true);
     });
 });
+$('.km_final').each(function() {
+            const kmInicial = parseFloat($(this).data('km-inicial'));
+            const valorKm = parseFloat($(this).data('valor-km'));
+            const kmFinal = parseFloat($(this).val());
+            idAluguel = $(this).attr('id').split('_')[2];
 
+            if (isNaN(kmFinal) || kmFinal <= kmInicial) {
+                camposValidos = false;
+            } else {
+                const kmRodados = kmFinal - kmInicial;
+                total += kmRodados * valorKm;
+            }
+        });
     </script>
 
     <footer class="footer text-center">
