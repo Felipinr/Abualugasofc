@@ -52,6 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<div class='alert alert-success' role='alert'>
                 Pagamento registrado com sucesso e veículos disponíveis para aluguel novamente!
             </div>";
+            
+            echo "<form action='deletar_aluguel.php' method='POST'>
+            <input type='hidden' name='id_aluguel' value='$id_aluguel'>
+            <button type='submit' name='excluir' class='btn btn-danger'>Clique aqui para finalizar o aluguel</button>
+          </form>";
         } catch (Exception $e) {
             // Reverte a transação em caso de erro
             $conexao->rollback();
@@ -69,4 +74,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Requisição inválida.
     </div>";
 }
+// Obtém os veículos associados ao aluguel
+$stmt = $conexao->prepare("
+    SELECT veiculos_id_veiculo, km_inicial
+    FROM alugueis_veiculos 
+    WHERE alugueis_id_aluguel = ?
+");
+$stmt->bind_param('i', $id_aluguel);
+$stmt->execute();
+$result = $stmt->get_result();
+$veiculos = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Para cada veículo, define o km_inicial como o valor de km_final
+$stmt = $conexao->prepare("
+    UPDATE alugueis_veiculos
+    SET km_inicial = km_final
+    WHERE alugueis_id_aluguel = ?
+");
+foreach ($veiculos as $veiculo) {
+    $stmt->bind_param('i', $veiculo['veiculos_id_veiculo']);
+    $stmt->execute();
+}
+$stmt->close();
+
 ?>
