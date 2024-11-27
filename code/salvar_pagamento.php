@@ -34,6 +34,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $veiculos = $result->fetch_all(MYSQLI_ASSOC);
             $stmt->close();
 
+
+            // Atualiza a quilometragem e disponibilidade de cada veículo
+            $stmt = $conexao->prepare("
+                UPDATE veiculos 
+                SET km_atual = km_atual + ?, disponivel = 1 
+                WHERE id_veiculo = ?
+            ");
+
+            foreach ($veiculos_kms as $veiculo) {
+                // Extrai os dados de cada veículo
+                $id_veiculo = $veiculo['id_veiculo'];
+                $km_inicial = (float)$veiculo['km_inicial'];
+                $km_final = (float)$veiculo['km_final'];
+
+                // Calcula o km percorrido
+                $km_percorrido = $km_final - $km_inicial;
+
+                // Atualiza a tabela 'veiculos'
+                $stmt->bind_param('di', $km_percorrido, $id_veiculo);
+                $stmt->execute();
+            }
+
+            $stmt->close();
+
+            // Confirma a transação
+            $conexao->commit();
+
             // Atualiza a disponibilidade de cada veículo para '1' (disponível)
             $stmt = $conexao->prepare("
                 UPDATE veiculos 
