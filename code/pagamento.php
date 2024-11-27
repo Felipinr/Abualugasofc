@@ -2,6 +2,24 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
+
+/**
+ * Redireciona para a página de seleção de empréstimos de um cliente.
+ *
+ * Este script é responsável por redirecionar o usuário para a página de seleção de empréstimos
+ * de um cliente, com base no ID do cliente enviado via POST. O script valida se o ID do cliente
+ * foi enviado e, em caso afirmativo, redireciona para a página `pagamento2.php` com o ID do cliente.
+ * 
+ * O script segue os seguintes passos:
+ * 1. Validação do ID do cliente enviado via POST.
+ * 2. Redirecionamento para a página `pagamento2.php` com o ID do cliente.
+ *
+ * @param mysqli $conexao Conexão com o banco de dados.
+ * @return void
+ */
+
+
+
 if (isset($_POST['id_cliente']) && !empty($_POST['id_cliente'])) {
     $id_cliente = $_POST['id_cliente'];
     header("Location: pagamento2.php?id_cliente=$id_cliente");

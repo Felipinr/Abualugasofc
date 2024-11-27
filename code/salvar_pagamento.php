@@ -1,6 +1,26 @@
 <?php
 require_once 'conexao.php';
 
+/**
+ * Salva o pagamento de um aluguel e atualiza a disponibilidade do veículo.
+ *
+ * Este script é responsável por salvar os dados de pagamento de um aluguel no banco de dados
+ * e atualizar a disponibilidade do veículo associado ao aluguel. O script valida os dados enviados
+ * via POST e executa as operações de inserção e atualização no banco de dados dentro de uma transação.
+ * 
+ * O script segue os seguintes passos:
+ * 1. Validação dos dados enviados via POST.
+ * 2. Início de uma transação no banco de dados.
+ * 3. Inserção dos dados de pagamento na tabela `pagamentos`.
+ * 4. Recuperação dos veículos associados ao aluguel.
+ * 5. Atualização da disponibilidade dos veículos para disponível.
+ * 6. Commit da transação.
+ * 7. Exibição de mensagens de sucesso ou erro.
+ *
+ * @param mysqli $conexao Conexão com o banco de dados.
+ * @return void
+ */
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_aluguel = $_POST['id_aluguel'] ?? null;
     $data_pagamento = $_POST['data_pagamento'] ?? null;

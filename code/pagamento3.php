@@ -2,6 +2,27 @@
 require_once 'conexao.php';
 require_once 'core.php';
 
+/**
+ * Página de pagamento de um aluguel.
+ *
+ * Este script é responsável por exibir a página de pagamento de um aluguel, permitindo
+ * que o usuário insira os dados de pagamento e finalize o processo. O script valida
+ * se o ID do cliente foi enviado e recupera os dados necessários para exibir a página.
+ * 
+ * O script segue os seguintes passos:
+ * 1. Validação do ID do cliente enviado via GET.
+ * 2. Recuperação dos dados do cliente e do aluguel a partir do banco de dados.
+ * 3. Exibição do formulário de pagamento.
+ * 4. Processamento do pagamento e atualização do banco de dados.
+ * 5. Exibição de mensagens de sucesso ou erro.
+ *
+ * @param mysqli $conexao Conexão com o banco de dados.
+ * @param int    $id_cliente ID do cliente. Este valor é fornecido via parâmetro `$_GET['id_cliente']`.
+ * @param string $request_method Tipo da requisição HTTP. Verifica se a requisição é do tipo GET para recuperar os dados.
+ * @return void
+ */
+
+
 if (!isset($_GET['id_cliente']) || empty($_GET['id_cliente'])) {
     echo "<div class='alert alert-danger' role='alert'>Cliente não selecionado. Por favor, volte e selecione um cliente.</div>";
     exit;
