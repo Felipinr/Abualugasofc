@@ -86,16 +86,4 @@ $result = $stmt->get_result();
 $veiculos = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Para cada veículo, define o km_inicial como o valor de km_final
-$stmt = $conexao->prepare("
-    UPDATE alugueis_veiculos
-    SET km_inicial = km_final
-    WHERE alugueis_id_aluguel = ?
-");
-foreach ($veiculos as $veiculo) {
-    $stmt->bind_param('i', $veiculo['veiculos_id_veiculo']);
-    $stmt->execute();
-}
-$stmt->close();
-
 ?>
