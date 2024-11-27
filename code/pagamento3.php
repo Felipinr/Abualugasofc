@@ -29,6 +29,8 @@ function tratarValor($valor, $default = 0)
     <title>Pagamento</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="jquery.validate.min.js"></script>
 
     <style>
         body {
@@ -154,6 +156,44 @@ function tratarValor($valor, $default = 0)
                 $('#id_aluguel').val(idAluguel);
             });
         });
+        $(document).ready(function() {
+    // Inicialmente desativa o botão de registrar pagamento
+    $('#registrarPagamento').prop('disabled', true);
+
+    $('#calcularTotal').on('click', function() {
+        let total = 0;
+        let idAluguel = null;
+
+        $('.km_final').each(function() {
+            const kmInicial = parseFloat($(this).data('km-inicial'));
+            const valorKm = parseFloat($(this).data('valor-km'));
+            const kmFinal = parseFloat($(this).val());
+            idAluguel = $(this).attr('id').split('_')[2];
+
+            if (!isNaN(kmFinal) && kmFinal > kmInicial) {
+                const kmRodados = kmFinal - kmInicial;
+                total += kmRodados * valorKm;
+            }
+        });
+
+        if (total > 0) {
+            $('#totalValor').text(total.toFixed(2).replace('.', ','));
+            $('#valor_pagamento').val(total.toFixed(2));
+            $('#id_aluguel').val(idAluguel);
+
+            // Habilita o botão de registrar pagamento após o cálculo
+            $('#registrarPagamento').prop('disabled', false);
+        } else {
+            alert('Verifique os valores inseridos. O cálculo não pode ser concluído.');
+        }
+    });
+
+    // Desabilita novamente se valores mudarem após o cálculo
+    $('.km_final').on('input', function() {
+        $('#registrarPagamento').prop('disabled', true);
+    });
+});
+
     </script>
 
     <!-- Footer -->
