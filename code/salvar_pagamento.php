@@ -99,6 +99,7 @@ $stmt = $conexao->prepare("
     FROM alugueis_veiculos 
     WHERE alugueis_id_aluguel = ?
 ");
+
 $stmt->bind_param('i', $id_aluguel);
 $stmt->execute();
 $result = $stmt->get_result();
